@@ -11,13 +11,10 @@ public:
 
     double get_jaccard_similarity();
 
-
-
 private:
     Document *doc1;
     Document *doc2;
 
 };
-
 
 #endif
