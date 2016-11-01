@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <boost/functional/hash.hpp>
 
 using namespace std;
 
@@ -9,6 +10,7 @@ using namespace std;
 /**
  * Uses hash function with index i
  * http://stackoverflow.com/questions/24676237/generating-random-hash-functions-for-lsh-minhash-algorithm
+ * http://stackoverflow.com/questions/19701052/how-many-hash-functions-are-required-in-a-minhash-algorithm/19711615#19711615
  *
  * @param i
  * @param buckets
@@ -22,7 +24,6 @@ unsigned hash(unsigned i, unsigned buckets, int val) {
 }
 
 double get_minhash_similarity(const string &doc1, const string &doc2){
-
     return 0.0;
 }
 
@@ -66,5 +67,14 @@ int main(int argc, char *argv[]) {
     } else {
         cout << "Invalid number of arguments" << endl;
     }
+
+    boost::hash<string> string_hash;
+    boost::hash<int> int_hash;
+
+    unsigned long seed = 0;
+    boost::hash_combine(seed, "Hash me");
+    boost::hash_combine(seed, 2);
+
+    cout << seed << endl;
 
 }
