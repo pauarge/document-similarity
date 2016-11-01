@@ -24,6 +24,18 @@ unsigned hash(unsigned i, unsigned buckets, int val) {
 }
 
 double get_minhash_similarity(const string &doc1, const string &doc2){
+
+    /* PSEUDOCODE
+     * for each row r do begin
+     *      for each hash function hi do
+     *          compute hi(r)
+     *      for each column c
+     *          if c has 1 in row r
+     *              for each hash function hi do
+     *                  if hi(r) < M(i,c) then
+     *                      M(i,c) = hi(r)
+     */
+
     return 0.0;
 }
 
