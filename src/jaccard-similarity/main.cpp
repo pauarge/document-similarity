@@ -17,7 +17,7 @@ set<string> get_shingles(unsigned k, const string &doc) {
 }
 
 
-double get_jaccard(const string &doc1, const string &doc2) {
+double get_jaccard_similarity(const string &doc1, const string &doc2) {
     set<string> shingles1 = get_shingles(KSHINGLES, doc1);
     set<string> shingles2 = get_shingles(KSHINGLES, doc2);
 
@@ -67,7 +67,8 @@ int main(int argc, char *argv[]) {
         docfile1.close();
         docfile2.close();
 
-        cout << get_jaccard(doc1, doc2) << endl;
+        cout << get_jaccard_similarity(doc1, doc2) << endl;
+
     } else {
         cout << "Invalid number of arguments" << endl;
     }
