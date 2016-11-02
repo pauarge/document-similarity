@@ -3,4 +3,9 @@ project(document_similarity)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-add_executable(comparator src/main.cpp)
+file(GLOB classes
+        "src/classes/*.hpp"
+        "src/classes/*.cpp"
+        )
+
+add_executable(comparator src/main.cpp ${classes})

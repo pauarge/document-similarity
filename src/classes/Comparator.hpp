@@ -1,3 +1,8 @@
+#include <iostream>
+#include "Document.hpp"
+
+using namespace std;
+
 #define KSHINGLES 5
 
 #ifndef DOCUMENT_SIMILARITY_COMPARATOR_HPP

@@ -7,6 +7,8 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
+    // TODO: Add time measuring features
+
     if (argc == 3) {
         Document doc1 = Document(argv[1]);
         Document doc2 = Document(argv[2]);

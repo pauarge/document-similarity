@@ -30,3 +30,11 @@ set<string> Document::get_shingles(unsigned k) const {
     }
     return res;
 }
+
+set<unsigned> Document::get_hashed_shingles(unsigned k) const {
+    set<unsigned> res;
+    for (unsigned long i = 0; i <= this->data.length() - k; i++) {
+        string temp = this->data.substr(i, k);
+    }
+    return res;
+}

@@ -1,5 +1,7 @@
 #include <set>
+#include <iostream>
 #include <fstream>
+#include <boost/crc.hpp>
 
 using namespace std;
 
@@ -17,6 +19,8 @@ public:
     Document(std::string path);
 
     set<string> get_shingles(unsigned k) const;
+
+    set<unsigned> get_hashed_shingles(unsigned k) const;
 };
 
 

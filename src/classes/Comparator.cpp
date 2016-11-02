@@ -1,5 +1,9 @@
 #include "Comparator.hpp"
 
+Comparator::Comparator(Document *doc1, Document *doc2) {
+
+}
+
 
 double Comparator::get_jaccard_similarity() {
     set<string> shingles1 = doc1->get_shingles(KSHINGLES);
