@@ -1,6 +1,7 @@
 #include <set>
 #include <iostream>
 #include <fstream>
+#include <climits>
 #include <boost/crc.hpp>
 
 using namespace std;

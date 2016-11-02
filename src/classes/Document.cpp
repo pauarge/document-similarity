@@ -35,6 +35,9 @@ set<unsigned> Document::get_hashed_shingles(unsigned k) const {
     set<unsigned> res;
     for (unsigned long i = 0; i <= this->data.length() - k; i++) {
         string temp = this->data.substr(i, k);
+        hash<string> string_hash;
+        unsigned h = string_hash(temp) % UINT_MAX;
+        cout << h << endl;
     }
     return res;
 }
