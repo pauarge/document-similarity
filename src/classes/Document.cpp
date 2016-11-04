@@ -31,13 +31,13 @@ set<string> Document::get_shingles(unsigned k) const {
     return res;
 }
 
-set<unsigned> Document::get_hashed_shingles(unsigned k) const {
-    set<unsigned> res;
+set<unsigned long> Document::get_hashed_shingles(unsigned k) const {
+    set<unsigned long> res;
     for (unsigned long i = 0; i <= this->data.length() - k; i++) {
         string temp = this->data.substr(i, k);
-        hash<string> string_hash;
-        unsigned h = string_hash(temp) % UINT_MAX;
-        cout << h << endl;
+        boost::crc_32_type h;
+        h.process_bytes(temp.data(), temp.length());
+        res.insert(h.checksum());
     }
     return res;
 }

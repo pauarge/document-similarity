@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 
         Comparator comparator = Comparator(&doc1, &doc2);
 
-        set<unsigned> s = doc1.get_hashed_shingles(5);
+        set<unsigned long> s = doc1.get_hashed_shingles(5);
 
         cout << "Jaccard similarity " << comparator.get_jaccard_similarity() << endl;
 

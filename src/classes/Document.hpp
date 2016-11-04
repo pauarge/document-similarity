@@ -1,7 +1,6 @@
 #include <set>
 #include <iostream>
 #include <fstream>
-#include <climits>
 #include <boost/crc.hpp>
 
 using namespace std;
@@ -21,7 +20,7 @@ public:
 
     set<string> get_shingles(unsigned k) const;
 
-    set<unsigned> get_hashed_shingles(unsigned k) const;
+    set<unsigned long> get_hashed_shingles(unsigned k) const;
 };
 
 
