@@ -4,9 +4,6 @@
 
 using namespace std;
 
-#define KSHINGLES 2
-#define HASH_FUNCTIONS 10
-
 #ifndef DOCUMENT_SIMILARITY_COMPARATOR_HPP
 #define DOCUMENT_SIMILARITY_COMPARATOR_HPP
 
@@ -25,8 +22,6 @@ private:
     Document *doc2;
 
     vector<int> generate_random_coefficients();
-
-    unsigned long fast_hash(int c1, int c2, unsigned long val);
 
 };
 
