@@ -26,14 +26,32 @@ double Comparator::get_minhash_similarity() {
     vector<int> c1 = generate_random_coefficients();
     vector<int> c2 = generate_random_coefficients();
 
-    unsigned long val = 123456789;
+    set<unsigned long> shingles1 = doc1->get_hashed_shingles(KSHINGLES);
+    set<unsigned long> shingles2 = doc2->get_hashed_shingles(KSHINGLES);
 
-    vector<unsigned long> hashes(HASH_FUNCTIONS);
-    for(int i =0; i< HASH_FUNCTIONS; i++){
-        hashes[i] = fast_hash(c1[i], c2[i], val);
+    vector<unsigned long> sig1(HASH_FUNCTIONS);
+    vector<unsigned long> sig2(HASH_FUNCTIONS);
+
+    for (int i = 0; i < HASH_FUNCTIONS; i++) {
+        sig1[i] = ULONG_MAX;
+        for (unsigned long shingle : shingles1) {
+            sig1[i] = min(sig1[i], fast_hash(c1[i], c2[i], shingle));
+        }
     }
 
-    return 0.0;
+    for (int i = 0; i < HASH_FUNCTIONS; i++) {
+        sig2[i] = ULONG_MAX;
+        for (unsigned long shingle : shingles2) {
+            sig2[i] = min(sig2[i], fast_hash(c1[i], c2[i], shingle));
+        }
+    }
+
+    float common = 0;
+    for (int i = 0; i < HASH_FUNCTIONS; i++) {
+        if (sig1[i] == sig2[i]) common++;
+    }
+
+    return common / HASH_FUNCTIONS;
 }
 
 /**
@@ -46,7 +64,7 @@ double Comparator::get_minhash_similarity() {
 vector<int> Comparator::generate_random_coefficients() {
     vector<int> res(HASH_FUNCTIONS);
 
-    for (int i = 0; i < HASH_FUNCTIONS; i++){
+    for (int i = 0; i < HASH_FUNCTIONS; i++) {
         res[i] = rand();
     }
 
