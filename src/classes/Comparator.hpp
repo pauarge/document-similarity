@@ -16,9 +16,13 @@ public:
 
     double get_jaccard_similarity();
 
+    double get_minhash_similarity();
+
 private:
     Document *doc1;
     Document *doc2;
+
+    set<int> generate_random_coefficients(int k);
 
 };
 

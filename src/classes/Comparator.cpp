@@ -20,3 +20,27 @@ double Comparator::get_jaccard_similarity() {
 
     return float(shingles_intersect.size()) / shingles_union.size();
 }
+
+
+double Comparator::get_minhash_similarity() {
+    set<int> coe = generate_random_coefficients(5);
+    return 0.0;
+}
+
+
+set<int> Comparator::generate_random_coefficients(int k) {
+    set<int> res;
+
+    for (int i = 0; i < k; i++) {
+        int val = rand();
+        pair<set<int>::iterator, bool> p = res.insert(val);
+
+        // Ensuring value did not exist previously
+        while(not p.second){
+            val = 1;
+            p = res.insert(val);
+        }
+    }
+
+    return res;
+}

@@ -21,6 +21,7 @@ public:
     set<string> get_shingles(unsigned k) const;
 
     set<unsigned long> get_hashed_shingles(unsigned k) const;
+
 };
 
 
