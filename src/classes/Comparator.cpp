@@ -7,14 +7,14 @@ Comparator::Comparator(Document *doc1, Document *doc2) {
 
 
 double Comparator::get_jaccard_similarity() {
-    set<unsigned long> shingles1 = doc1->get_hashed_shingles(KSHINGLES);
-    set<unsigned long> shingles2 = doc2->get_hashed_shingles(KSHINGLES);
+    set<unsigned> shingles1 = doc1->get_hashed_shingles(KSHINGLES);
+    set<unsigned> shingles2 = doc2->get_hashed_shingles(KSHINGLES);
 
-    set<unsigned long> shingles_intersect;
+    set<unsigned> shingles_intersect;
     set_intersection(shingles1.begin(), shingles1.end(), shingles2.begin(), shingles2.end(),
                      inserter(shingles_intersect, shingles_intersect.begin()));
 
-    set<unsigned long> shingles_union;
+    set<unsigned> shingles_union;
     set_union(shingles1.begin(), shingles1.end(), shingles2.begin(), shingles2.end(),
               inserter(shingles_union, shingles_union.begin()));
 
@@ -26,8 +26,8 @@ double Comparator::get_minhash_similarity() {
     vector<int> c1 = generate_random_coefficients();
     vector<int> c2 = generate_random_coefficients();
 
-    vector<unsigned long> sig1 = doc1->get_signature(c1, c2);
-    vector<unsigned long> sig2 = doc2->get_signature(c1, c2);
+    vector<unsigned> sig1 = doc1->get_signature(c1, c2);
+    vector<unsigned> sig2 = doc2->get_signature(c1, c2);
 
     float common = 0;
     for (int i = 0; i < HASH_FUNCTIONS; i++) {

@@ -22,12 +22,12 @@ Document::Document(string path) {
 }
 
 
-vector<unsigned long> Document::get_signature(vector<int> &c1, vector<int> &c2){
-    set<unsigned long> shingles = this->get_hashed_shingles(KSHINGLES);
-    vector<unsigned long> sig(HASH_FUNCTIONS);
+vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2){
+    set<unsigned> shingles = this->get_hashed_shingles(KSHINGLES);
+    vector<unsigned> sig(HASH_FUNCTIONS);
     for (int i = 0; i < HASH_FUNCTIONS; i++) {
-        sig[i] = ULONG_MAX;
-        for (unsigned long shingle : shingles) {
+        sig[i] = UINT_MAX;
+        for (unsigned shingle : shingles) {
             sig[i] = min(sig[i], fast_hash(c1[i], c2[i], shingle));
         }
     }
@@ -37,16 +37,16 @@ vector<unsigned long> Document::get_signature(vector<int> &c1, vector<int> &c2){
 
 set<string> Document::get_shingles(unsigned k) const {
     set<string> res;
-    for (unsigned long i = 0; i <= this->data.length() - k; i++) {
+    for (unsigned i = 0; i <= this->data.length() - k; i++) {
         string temp = this->data.substr(i, k);
         res.insert(temp);
     }
     return res;
 }
 
-set<unsigned long> Document::get_hashed_shingles(unsigned k) const {
-    set<unsigned long> res;
-    for (unsigned long i = 0; i <= this->data.length() - k; i++) {
+set<unsigned> Document::get_hashed_shingles(unsigned k) const {
+    set<unsigned> res;
+    for (unsigned i = 0; i <= this->data.length() - k; i++) {
         string temp = this->data.substr(i, k);
         boost::crc_32_type h;
         h.process_bytes(temp.data(), temp.length());
@@ -63,6 +63,6 @@ set<unsigned long> Document::get_hashed_shingles(unsigned k) const {
  * @param val
  * @return
  */
-unsigned long Document::fast_hash(int c1, int c2, unsigned long val) {
-    return (c1 * val + c2) % ULONG_MAX;
+unsigned Document::fast_hash(int c1, int c2, unsigned val) {
+    return (c1 * val + c2) % UINT_MAX;
 }
