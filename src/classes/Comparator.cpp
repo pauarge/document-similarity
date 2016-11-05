@@ -23,24 +23,45 @@ double Comparator::get_jaccard_similarity() {
 
 
 double Comparator::get_minhash_similarity() {
-    set<int> coe = generate_random_coefficients(5);
+    vector<int> c1 = generate_random_coefficients();
+    vector<int> c2 = generate_random_coefficients();
+
+    unsigned long val = 123456789;
+
+    vector<unsigned long> hashes(HASH_FUNCTIONS);
+    for(int i =0; i< HASH_FUNCTIONS; i++){
+        hashes[i] = fast_hash(c1[i], c2[i], val);
+    }
+
     return 0.0;
 }
 
+/**
+ * This implementation of generating might lead to duplicate coefficients, but the probability is so low that
+ * checking if the coefficient already existed on the list is way more expensive than this margin of error.
+ *
+ * @param k
+ * @return
+ */
+vector<int> Comparator::generate_random_coefficients() {
+    vector<int> res(HASH_FUNCTIONS);
 
-set<int> Comparator::generate_random_coefficients(int k) {
-    set<int> res;
-
-    for (int i = 0; i < k; i++) {
-        int val = rand();
-        pair<set<int>::iterator, bool> p = res.insert(val);
-
-        // Ensuring value did not exist previously
-        while(not p.second){
-            val = 1;
-            p = res.insert(val);
-        }
+    for (int i = 0; i < HASH_FUNCTIONS; i++){
+        res[i] = rand();
     }
 
     return res;
+}
+
+
+/**
+ * Arbitrary hash function that generates a value from two random coefficients and an input.
+ *
+ * @param c1
+ * @param c2
+ * @param val
+ * @return
+ */
+unsigned long Comparator::fast_hash(int c1, int c2, unsigned long val) {
+    return (c1 * val - 2 * c2) % ULONG_MAX;
 }
