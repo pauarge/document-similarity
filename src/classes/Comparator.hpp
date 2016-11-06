@@ -26,8 +26,10 @@ private:
     Document *doc1;
     Document *doc2;
 
-    float threshold =  pow((1/(float)BANDS),(1/(float)ROWS));
+    float threshold;
+
     vector<int> generate_random_coefficients();
+
     vector<unsigned> get_bands(vector<unsigned> &sig);
 
 };

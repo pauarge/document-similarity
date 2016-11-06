@@ -4,6 +4,7 @@
 Comparator::Comparator(Document *doc1, Document *doc2) {
     this->doc1 = doc1;
     this->doc2 = doc2;
+    this->threshold = pow((1 / (float) BANDS), (1 / (float) ROWS));
 }
 
 
@@ -48,17 +49,16 @@ double Comparator::get_lsh_similarity() {
     vector<unsigned> lsh1 = get_bands(sig1);
     vector<unsigned> lsh2 = get_bands(sig2);
     float common = 0;
-    for(int i = 0; i < BANDS; ++i) {
+    for (int i = 0; i < BANDS; ++i) {
         if (lsh1[i] == lsh2[i]) ++common;
     }
-    if (common/BANDS >= threshold) {
+    if (common / BANDS >= threshold) {
         common = 0;
         for (int i = 0; i < HASH_FUNCTIONS; i++) {
             if (sig1[i] == sig2[i]) common++;
         }
         return common / HASH_FUNCTIONS;
-    }
-    else return 0;
+    } else return 0;
 }
 
 vector<unsigned> Comparator::get_bands(vector<unsigned> &sig) {
@@ -66,8 +66,8 @@ vector<unsigned> Comparator::get_bands(vector<unsigned> &sig) {
     for (int i = 0; i < HASH_FUNCTIONS; i += ROWS) {
         size_t seed = 0;
         vector<unsigned> v(ROWS);
-        for(int j = 0; j < ROWS; ++j) {
-            v[j] = sig[i+j];
+        for (int j = 0; j < ROWS; ++j) {
+            v[j] = sig[i + j];
         }
         boost::hash_combine(seed, v);
         lsh.push_back(seed);
