@@ -66,3 +66,46 @@ vector<int> Comparator::generate_random_coefficients() {
 
     return res;
 }
+
+Comparator::Comparator(vector<Document*> V) {
+    this->Docs = V;
+}
+
+vector<vector<double> > Comparator::get_multi_jaccard_similarity() {
+    vector<vector<double>> Res(this->Docs.size(), vector<double> (this->Docs.size()));
+    for (int i = 0; i < this->Docs.size()-1; i++) {
+        for (int j = i; j < this->Docs.size()-1; j++) {
+            Document doc1 = *(this->Docs[i]);
+            Document doc2 = *(this->Docs[i+1]);
+            Comparator c = Comparator(&doc1, &doc2);
+            Res[i][j] = Res[j][i] = c.get_jaccard_similarity();
+        }
+    }
+    return Res;
+}
+
+vector<vector<double> > Comparator::get_multi_minhash_similarity() {
+    vector<vector<double>> Res(this->Docs.size(), vector<double> (this->Docs.size()));
+    for (int i = 0; i < this->Docs.size()-1; i++) {
+        for (int j = i; j < this->Docs.size()-1; j++) {
+            Document doc1 = *(this->Docs[i]);
+            Document doc2 = *(this->Docs[i+1]);
+            Comparator c = Comparator(&doc1, &doc2);
+            Res[i][j] = Res[j][i] = c.get_minhash_similarity();
+        }
+    }
+    return Res;
+}
+
+vector<vector<double> > Comparator::get_multi_lsh_similarity() {
+    vector<vector<double>> Res(this->Docs.size(), vector<double> (this->Docs.size()));
+    for (int i = 0; i < this->Docs.size()-1; i++) {
+        for (int j = i; j < this->Docs.size()-1; j++) {
+            Document doc1 = *(this->Docs[i]);
+            Document doc2 = *(this->Docs[i+1]);
+            Comparator c = Comparator(&doc1, &doc2);
+            Res[i][j] = Res[j][i] = c.get_lsh_similarity();
+        }
+    }
+    return Res;
+}
