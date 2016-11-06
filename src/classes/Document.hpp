@@ -4,14 +4,13 @@
 #include <fstream>
 #include <cmath>
 #include <boost/crc.hpp>
+#include <boost/functional/hash.hpp>
 
 using namespace std;
 
 #define KSHINGLES 9
 #define HASH_FUNCTIONS 1000
-#define BANDS 125
-#define ROWS 8
-#define THRESHOLD pow((1/BANDS),(1/ROWS))
+
 
 #ifndef DOCUMENT_SIMILARITY_DOCUMENT_HPP
 #define DOCUMENT_SIMILARITY_DOCUMENT_HPP

@@ -64,6 +64,7 @@ set<unsigned> Document::get_hashed_shingles(unsigned k) const {
     return res;
 }
 
+
 /**
  * Arbitrary hash function that generates a value from two random coefficients and an input.
  *

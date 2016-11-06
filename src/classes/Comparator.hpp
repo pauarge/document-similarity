@@ -4,6 +4,9 @@
 
 using namespace std;
 
+#define BANDS 250
+#define ROWS 4
+
 #ifndef DOCUMENT_SIMILARITY_COMPARATOR_HPP
 #define DOCUMENT_SIMILARITY_COMPARATOR_HPP
 
@@ -30,6 +33,10 @@ private:
     vector<Document*> Docs;
 
     vector<int> generate_random_coefficients();
+
+    float threshold;
+
+    vector<unsigned> get_bands(vector<unsigned> &sig);
 };
 
 #endif
