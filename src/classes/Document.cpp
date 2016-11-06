@@ -31,7 +31,7 @@ Document::Document(string path) {
 }
 
 
-vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2){
+vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2) {
     set<unsigned> shingles = this->get_hashed_shingles(KSHINGLES);
     vector<unsigned> sig(HASH_FUNCTIONS);
     for (int i = 0; i < HASH_FUNCTIONS; i++) {
@@ -94,11 +94,11 @@ string Document::get_permutation() const {
     random_device rd;
     mt19937 gen(rd());
     std::string res;
-    uniform_int_distribution<> dis(0, words.size()-1);
+    uniform_int_distribution<> dis(0, words.size() - 1);
     for (int i = 0; i < words.size(); i++) {
-        swap(words[i], words[(dis(gen)%(words.size()-i))+i]);
+        swap(words[i], words[(dis(gen) % (words.size() - i)) + i]);
         res.append(words[i]);
-        if (i != words.size()-1) res.append(" ");
+        if (i != words.size() - 1) res.append(" ");
     }
     return res;
 }

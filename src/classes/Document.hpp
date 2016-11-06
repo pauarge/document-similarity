@@ -22,6 +22,8 @@ public:
     string data;
     string path;
 
+    Document(bool b, string d);
+
     Document(std::string path);
 
     vector<unsigned> get_signature(vector<int> &c1, vector<int> &c2);
@@ -29,7 +31,9 @@ public:
     set<string> get_shingles(unsigned k) const;
 
     set<unsigned> get_hashed_shingles(unsigned k) const;
+
     std::vector<std::string> get_permutations(int k) const;
+
     std::string get_permutation() const;
 
 private:
