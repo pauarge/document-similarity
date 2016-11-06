@@ -44,10 +44,24 @@ double Comparator::get_lsh_similarity() {
 
     vector<unsigned> sig1 = doc1->get_signature(c1, c2);
     vector<unsigned> sig2 = doc2->get_signature(c1, c2);
-    /* estructura basica
-     * dividir signature en BANDS on cada BAND te ROWS files
-     * per saber si son comparables una parella utilitzem THRESHOLD
-     * */
+
+    vector<unsigned> lsh1 = get_bands(sig1);
+    vector<unsigned> lsh2 = get_bands(sig2);
+    //TODO: FALTA COMPARAR LES DUES BANDES
+}
+
+vector<unsigned> Comparator::get_bands(vector<unsigned> &sig) {
+    vector<unsigned> lsh;
+    for (int i = 0; i < HASH_FUNCTIONS; i += ROWS) {
+        size_t seed = 0;
+        vector<unsigned> v(ROWS);
+        for(int j = 0; j < ROWS; ++j) {
+            v[j] = sig[i+j];
+        }
+        boost::hash_combine(seed, v);
+        lsh.push_back(seed);
+    }
+    return lsh;
 }
 
 /**
