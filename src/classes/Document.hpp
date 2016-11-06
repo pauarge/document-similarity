@@ -33,6 +33,8 @@ public:
     set<string> get_shingles(unsigned k) const;
 
     set<unsigned> get_hashed_shingles(unsigned k) const;
+    std::vector<std::string> get_permutations(int k) const;
+    std::string get_permutation() const;
 
 private:
     unsigned fast_hash(int c1, int c2, unsigned val);
