@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Comparator.hpp"
 
 Comparator::Comparator(Document *doc1, Document *doc2) {
@@ -35,6 +36,18 @@ double Comparator::get_minhash_similarity() {
     }
 
     return common / HASH_FUNCTIONS;
+}
+
+double Comparator::get_lsh_similarity() {
+    vector<int> c1 = generate_random_coefficients();
+    vector<int> c2 = generate_random_coefficients();
+
+    vector<unsigned> sig1 = doc1->get_signature(c1, c2);
+    vector<unsigned> sig2 = doc2->get_signature(c1, c2);
+    /* estructura basica
+     * dividir signature en BANDS on cada BAND te ROWS files
+     * per saber si son comparables una parella utilitzem THRESHOLD
+     * */
 }
 
 /**
