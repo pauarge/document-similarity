@@ -1,5 +1,14 @@
+#include <iterator>
+#include <sstream>
+#include <set>
+#include <ctime>
+#include <random>
 #include "Document.hpp"
 
+
+Document::Document(bool b, string d) {
+    this->data = d;
+}
 
 Document::Document(string path) {
     this->path = path;
@@ -65,4 +74,41 @@ set<unsigned> Document::get_hashed_shingles(unsigned k) const {
  */
 unsigned Document::fast_hash(int c1, int c2, unsigned val) {
     return (c1 * val + c2) % UINT_MAX;
+}
+
+string Document::get_permutation() const {
+    if (this->data.length() == 0) return "";
+    std::vector<std::string> words;
+    std::string text = this->data;
+    std::string::size_type beg = 0, end;
+
+    do {
+        end = text.find(' ', beg);
+        if (end == std::string::npos) {
+            end = text.size();
+        }
+        words.emplace_back(text.substr(beg, end - beg));
+        beg = end + 1;
+    } while (beg < text.size());
+
+    random_device rd;
+    mt19937 gen(rd());
+    std::string res;
+    uniform_int_distribution<> dis(0, words.size()-1);
+    for (int i = 0; i < words.size(); i++) {
+        swap(words[i], words[(dis(gen)%(words.size()-i))+i]);
+        res.append(words[i]);
+        if (i != words.size()-1) res.append(" ");
+    }
+    return res;
+}
+
+std::vector<std::string> Document::get_permutations(int k) const {
+    std::vector<std::string> res;
+    for (int i = 0; i < k; i++) {
+        string perm = this->get_permutation();
+        std::cout << perm << std::endl;
+        res.push_back(perm);
+    }
+    return res;
 }
