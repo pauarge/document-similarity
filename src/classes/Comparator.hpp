@@ -17,6 +17,8 @@ public:
 
     double get_minhash_similarity();
 
+    double get_lsh_similarity();
+
 private:
     Document *doc1;
     Document *doc2;
