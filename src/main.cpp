@@ -1,8 +1,12 @@
-#include <iostream>
+#include <ctime>
 #include "classes/Comparator.hpp"
-#include "classes/Document.hpp"
 
-using namespace std;
+
+void print_time(clock_t begin){
+    clock_t end = clock();
+    double elapsed = double(end - begin) / CLOCKS_PER_SEC;
+    cout << "Calculated in " << elapsed << " seconds." << endl << endl;
+}
 
 
 int main(int argc, char *argv[]) {
@@ -25,9 +29,18 @@ int main(int argc, char *argv[]) {
 
         Comparator comparator = Comparator(&doc1, &doc2);
 
+        clock_t begin = clock();
         cout << "Jaccard similarity " << comparator.get_jaccard_similarity() << endl;
+        print_time(begin);
+
+        begin = clock();
         cout << "Minhash similarity " << comparator.get_minhash_similarity() << endl;
+        print_time(begin);
+
+        begin = clock();
         cout << "LSH similarity " << comparator.get_lsh_similarity() << endl;
+        print_time(begin);
+
     } else {
         cout << "Invalid number of arguments" << endl;
     }
