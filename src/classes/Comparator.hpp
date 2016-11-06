@@ -30,7 +30,7 @@ private:
     Document *doc1;
     Document *doc2;
 
-    vector<Document*> Docs;
+    vector<Document*> docs;
 
     vector<int> generate_random_coefficients();
 
