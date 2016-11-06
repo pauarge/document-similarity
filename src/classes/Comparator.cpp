@@ -47,7 +47,18 @@ double Comparator::get_lsh_similarity() {
 
     vector<unsigned> lsh1 = get_bands(sig1);
     vector<unsigned> lsh2 = get_bands(sig2);
-    //TODO: FALTA COMPARAR LES DUES BANDES
+    float common = 0;
+    for(int i = 0; i < BANDS; ++i) {
+        if (lsh1[i] == lsh2[i]) ++common;
+    }
+    if (common/BANDS >= threshold) {
+        common = 0;
+        for (int i = 0; i < HASH_FUNCTIONS; i++) {
+            if (sig1[i] == sig2[i]) common++;
+        }
+        return common / HASH_FUNCTIONS;
+    }
+    else return 0;
 }
 
 vector<unsigned> Comparator::get_bands(vector<unsigned> &sig) {

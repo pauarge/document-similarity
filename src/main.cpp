@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 
         cout << "Jaccard similarity " << comparator.get_jaccard_similarity() << endl;
         cout << "Minhash similarity " << comparator.get_minhash_similarity() << endl;
-
+        cout << "LSH similarity " << comparator.get_lsh_similarity() << endl;
     } else {
         cout << "Invalid number of arguments" << endl;
     }

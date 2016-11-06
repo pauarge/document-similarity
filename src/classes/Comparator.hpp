@@ -4,6 +4,9 @@
 
 using namespace std;
 
+#define BANDS 250
+#define ROWS 4
+
 #ifndef DOCUMENT_SIMILARITY_COMPARATOR_HPP
 #define DOCUMENT_SIMILARITY_COMPARATOR_HPP
 
@@ -23,7 +26,7 @@ private:
     Document *doc1;
     Document *doc2;
 
-    float threshold =  pow((1/BANDS),(1/ROWS));
+    float threshold =  pow((1/(float)BANDS),(1/(float)ROWS));
     vector<int> generate_random_coefficients();
     vector<unsigned> get_bands(vector<unsigned> &sig);
 

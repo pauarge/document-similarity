@@ -10,8 +10,7 @@ using namespace std;
 
 #define KSHINGLES 9
 #define HASH_FUNCTIONS 1000
-#define BANDS 125
-#define ROWS 8
+
 
 #ifndef DOCUMENT_SIMILARITY_DOCUMENT_HPP
 #define DOCUMENT_SIMILARITY_DOCUMENT_HPP
