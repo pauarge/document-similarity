@@ -17,6 +17,7 @@ int main(int argc, char *argv[]) {
     // TODO: Add time measuring features
 
     if (argc == 2) {
+        srand(time(NULL));
         string path = argv[2];
         if (!fs::exists(path) || !fs::is_directory(path)) {
             cout << "Could not read directory" << endl;
