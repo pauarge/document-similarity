@@ -5,8 +5,8 @@
 
 using namespace std;
 
-#define BANDS 250
-#define ROWS 4
+#define BANDS 100
+#define ROWS 3
 
 #ifndef DOCUMENT_SIMILARITY_COMPARATOR_HPP
 #define DOCUMENT_SIMILARITY_COMPARATOR_HPP

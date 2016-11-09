@@ -8,9 +8,9 @@
 
 using namespace std;
 
-#define TEST_DOCS 5
+#define TEST_DOCS 20
 #define KSHINGLES 9
-#define HASH_FUNCTIONS 250
+#define HASH_FUNCTIONS 300
 
 
 #ifndef DOCUMENT_SIMILARITY_DOCUMENT_HPP
