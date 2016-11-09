@@ -64,11 +64,13 @@ int main(int argc, char *argv[]) {
 
         begin = clock();
         cout << "LSH similarity " << endl;
-        vector<double> v = comparator.get_lsh_similarity();
-        for(double x : v) {
-            cout << x << " ";
+        D = comparator.get_lsh_similarity();
+        for(vector<double> v : D) {
+            for(double x : v) {
+                cout << x << " ";
+            }
+            cout << endl;
         }
-        cout << endl;
         print_time(begin);
 
     } else {

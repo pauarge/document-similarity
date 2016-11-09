@@ -6,28 +6,30 @@ Comparator::Comparator(vector<Document *> V) {
     this->threshold = pow((1 / (float) BANDS), (1 / (float) ROWS));
 }
 
-vector<double> Comparator::get_lsh_similarity() {
-    vector<double> res(docs.size()-1);
+vector<vector<double>> Comparator::get_lsh_similarity() {
+    vector<vector<double>> res(docs.size(), vector<double>(docs.size()));
+
     vector<int> c1 = generate_random_coefficients();
     vector<int> c2 = generate_random_coefficients();
+    for(int i = 0; i < docs.size(); ++i) {
+        vector<unsigned> sig1 = docs[i]->get_signature(c1, c2);
+        for(int j = i; j < docs.size(); ++j) {
+            vector<unsigned> sig2 = docs[j]->get_signature(c1, c2);
 
-    vector<unsigned> sig1 = docs[0]->get_signature(c1, c2);
-    for(int i = 1; i < docs.size(); ++i) {
-        vector<unsigned> sig2 = docs[i]->get_signature(c1, c2);
-
-        vector<unsigned> lsh1 = get_bands(sig1);
-        vector<unsigned> lsh2 = get_bands(sig2);
-        float common = 0;
-        for (int i = 0; i < BANDS; ++i) {
-            if (lsh1[i] == lsh2[i]) ++common;
-        }
-        if (common / BANDS >= threshold) {
-            common = 0;
-            for (int i = 0; i < HASH_FUNCTIONS; i++) {
-                if (sig1[i] == sig2[i]) common++;
+            vector<unsigned> lsh1 = get_bands(sig1);
+            vector<unsigned> lsh2 = get_bands(sig2);
+            float common = 0;
+            for (int i = 0; i < BANDS; ++i) {
+                if (lsh1[i] == lsh2[i]) ++common;
             }
-            res[i-1] = common / HASH_FUNCTIONS;
-        } else res[i-1] = 0;
+            if (common / BANDS >= threshold) {
+                common = 0;
+                for (int i = 0; i < HASH_FUNCTIONS; i++) {
+                    if (sig1[i] == sig2[i]) common++;
+                }
+                res[i][j] = common / HASH_FUNCTIONS;
+            } else res[i][j] = 0;
+        }
     }
     return res;
 }
