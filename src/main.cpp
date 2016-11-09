@@ -30,6 +30,8 @@ int main(int argc, char *argv[]) {
                 Document *doc = new Document(it->path().string());
                 if (doc->valid) {
                     docs.push_back(doc);
+                    vector<Document*> temp = doc->get_permutations(TEST_DOCS);
+                    docs.insert(docs.end(), temp.begin(), temp.end());
                 }
             }
             it++;
@@ -39,7 +41,7 @@ int main(int argc, char *argv[]) {
 
         clock_t begin = clock();
         cout << "Jaccard similarity" << endl;
-        vector<vector<double>> D(2, vector<double>(2));
+        vector<vector<double>> D(docs.size(), vector<double>(docs.size()));
         D = comparator.get_jaccard_similarity();
         for (vector<double> V : D) {
             for (double d : V) {

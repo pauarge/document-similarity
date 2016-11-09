@@ -104,12 +104,11 @@ string Document::get_permutation() const {
     return res;
 }
 
-std::vector<std::string> Document::get_permutations(int k) const {
-    std::vector<std::string> res;
+vector<Document*> Document::get_permutations(int k) const {
+    std::vector<Document*> res;
     for (int i = 0; i < k; i++) {
-        string perm = this->get_permutation();
-        std::cout << perm << std::endl;
-        res.push_back(perm);
+        Document* temp = new Document(true, this->get_permutation());
+        res.push_back(temp);
     }
     return res;
 }

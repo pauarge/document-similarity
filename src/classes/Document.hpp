@@ -8,8 +8,9 @@
 
 using namespace std;
 
+#define TEST_DOCS 5
 #define KSHINGLES 9
-#define HASH_FUNCTIONS 1000
+#define HASH_FUNCTIONS 250
 
 
 #ifndef DOCUMENT_SIMILARITY_DOCUMENT_HPP
@@ -35,7 +36,7 @@ public:
 
     set<unsigned> get_hashed_shingles(unsigned k) const;
 
-    std::vector<std::string> get_permutations(int k) const;
+    vector<Document*> get_permutations(int k) const;
 
     std::string get_permutation() const;
 
