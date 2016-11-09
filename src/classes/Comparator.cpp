@@ -6,29 +6,30 @@ Comparator::Comparator(vector<Document *> V) {
     this->threshold = pow((1 / (float) BANDS), (1 / (float) ROWS));
 }
 
-double Comparator::get_lsh_similarity() {
-    /*
+vector<double> Comparator::get_lsh_similarity() {
+    vector<double> res(docs.size()-1);
     vector<int> c1 = generate_random_coefficients();
     vector<int> c2 = generate_random_coefficients();
 
-    vector<unsigned> sig1 = doc1->get_signature(c1, c2);
-    vector<unsigned> sig2 = doc2->get_signature(c1, c2);
+    vector<unsigned> sig1 = docs[0]->get_signature(c1, c2);
+    for(int i = 1; i < docs.size(); ++i) {
+        vector<unsigned> sig2 = docs[i]->get_signature(c1, c2);
 
-    vector<unsigned> lsh1 = get_bands(sig1);
-    vector<unsigned> lsh2 = get_bands(sig2);
-    float common = 0;
-    for (int i = 0; i < BANDS; ++i) {
-        if (lsh1[i] == lsh2[i]) ++common;
-    }
-    if (common / BANDS >= threshold) {
-        common = 0;
-        for (int i = 0; i < HASH_FUNCTIONS; i++) {
-            if (sig1[i] == sig2[i]) common++;
+        vector<unsigned> lsh1 = get_bands(sig1);
+        vector<unsigned> lsh2 = get_bands(sig2);
+        float common = 0;
+        for (int i = 0; i < BANDS; ++i) {
+            if (lsh1[i] == lsh2[i]) ++common;
         }
-        return common / HASH_FUNCTIONS;
-    } else return 0;
-    */
-    return 0;
+        if (common / BANDS >= threshold) {
+            common = 0;
+            for (int i = 0; i < HASH_FUNCTIONS; i++) {
+                if (sig1[i] == sig2[i]) common++;
+            }
+            res[i-1] = common / HASH_FUNCTIONS;
+        } else res[i-1] = 0;
+    }
+    return res;
 }
 
 vector<unsigned> Comparator::get_bands(vector<unsigned> &sig) {
@@ -95,20 +96,5 @@ vector<vector<double>> Comparator::get_minhash_similarity() {
             Res[i][j] = Res[j][i] = common / HASH_FUNCTIONS;
         }
     }
-    return Res;
-}
-
-vector<vector<double>> Comparator::get_multi_lsh_similarity() {
-    vector<vector<double>> Res(this->docs.size(), vector<double>(this->docs.size()));
-    /*
-    for (int i = 0; i < this->docs.size(); i++) {
-        Document *doc1 = this->docs[i];
-        for (int j = i; j < this->docs.size(); j++) {
-            Document *doc2 = this->docs[j];
-            Comparator c = Comparator(doc1, doc2);
-            Res[i][j] = Res[j][i] = c.get_lsh_similarity();
-        }
-    }
-    */
     return Res;
 }

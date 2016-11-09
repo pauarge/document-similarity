@@ -23,9 +23,7 @@ public:
 
     vector<vector<double>> get_minhash_similarity();
 
-    double get_lsh_similarity();
-
-    vector<vector<double>> get_multi_lsh_similarity();
+    vector<double> get_lsh_similarity();
 
 private:
     vector<Document *> docs;

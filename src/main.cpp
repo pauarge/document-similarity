@@ -62,11 +62,14 @@ int main(int argc, char *argv[]) {
         }
         print_time(begin);
 
-        /*
         begin = clock();
-        cout << "LSH similarity " << comparator.get_lsh_similarity() << endl;
+        cout << "LSH similarity " << endl;
+        vector<double> v = comparator.get_lsh_similarity();
+        for(double x : v) {
+            cout << x << " ";
+        }
+        cout << endl;
         print_time(begin);
-         */
 
     } else {
         cout << "Invalid number of arguments" << endl;
