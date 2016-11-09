@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
         clock_t begin = clock();
         cout << "Jaccard similarity" << endl;
         vector<vector<double>> D(2, vector<double>(2));
-        D = comparator.get_multi_jaccard_similarity();
+        D = comparator.get_jaccard_similarity();
         for (vector<double> V : D) {
             for (double d : V) {
                 cout << d << " ";
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 
         begin = clock();
         cout << "Minhash similarity" << endl;
-        D = comparator.get_multi_minhash_similarity();
+        D = comparator.get_minhash_similarity();
         for (vector<double> V : D) {
             for (double d:V) {
                 cout << d << " ";

@@ -1,49 +1,13 @@
 #include "Comparator.hpp"
 
 
-Comparator::Comparator(Document *doc1, Document *doc2) {
-    this->doc1 = doc1;
-    this->doc2 = doc2;
+Comparator::Comparator(vector<Document *> V) {
+    this->docs = V;
     this->threshold = pow((1 / (float) BANDS), (1 / (float) ROWS));
 }
 
-Comparator::Comparator(vector<Document*> V) {
-    this->docs = V;
-}
-
-
-double Comparator::get_jaccard_similarity() {
-    set<unsigned> shingles1 = doc1->get_hashed_shingles(KSHINGLES);
-    set<unsigned> shingles2 = doc2->get_hashed_shingles(KSHINGLES);
-
-    set<unsigned> shingles_intersect;
-    set_intersection(shingles1.begin(), shingles1.end(), shingles2.begin(), shingles2.end(),
-                     inserter(shingles_intersect, shingles_intersect.begin()));
-
-    set<unsigned> shingles_union;
-    set_union(shingles1.begin(), shingles1.end(), shingles2.begin(), shingles2.end(),
-              inserter(shingles_union, shingles_union.begin()));
-
-    return float(shingles_intersect.size()) / shingles_union.size();
-}
-
-
-double Comparator::get_minhash_similarity() {
-    vector<int> c1 = generate_random_coefficients();
-    vector<int> c2 = generate_random_coefficients();
-
-    vector<unsigned> sig1 = doc1->get_signature(c1, c2);
-    vector<unsigned> sig2 = doc2->get_signature(c1, c2);
-
-    float common = 0;
-    for (int i = 0; i < HASH_FUNCTIONS; i++) {
-        if (sig1[i] == sig2[i]) common++;
-    }
-
-    return common / HASH_FUNCTIONS;
-}
-
 double Comparator::get_lsh_similarity() {
+    /*
     vector<int> c1 = generate_random_coefficients();
     vector<int> c2 = generate_random_coefficients();
 
@@ -63,6 +27,8 @@ double Comparator::get_lsh_similarity() {
         }
         return common / HASH_FUNCTIONS;
     } else return 0;
+    */
+    return 0;
 }
 
 vector<unsigned> Comparator::get_bands(vector<unsigned> &sig) {
@@ -88,49 +54,61 @@ vector<unsigned> Comparator::get_bands(vector<unsigned> &sig) {
  */
 vector<int> Comparator::generate_random_coefficients() {
     vector<int> res(HASH_FUNCTIONS);
-
     for (int i = 0; i < HASH_FUNCTIONS; i++) {
         res[i] = rand();
     }
-
     return res;
 }
 
-vector<vector<double> > Comparator::get_multi_jaccard_similarity() {
-    vector<vector<double>> Res(this->docs.size(), vector<double> (this->docs.size()));
+vector<vector<double>> Comparator::get_jaccard_similarity() {
+    vector<vector<double>> Res(this->docs.size(), vector<double>(this->docs.size()));
     for (int i = 0; i < this->docs.size(); i++) {
-        Document* doc1 = this->docs[i];
         for (int j = i; j < this->docs.size(); j++) {
-            Document* doc2 = this->docs[j];
-            Comparator c = Comparator(doc1, doc2);
-            Res[i][j] = Res[j][i] = c.get_jaccard_similarity();
+            set<unsigned> shingles1 = this->docs[i]->get_hashed_shingles(KSHINGLES);
+            set<unsigned> shingles2 = this->docs[j]->get_hashed_shingles(KSHINGLES);
+
+            set<unsigned> shingles_intersect;
+            set_intersection(shingles1.begin(), shingles1.end(), shingles2.begin(), shingles2.end(),
+                             inserter(shingles_intersect, shingles_intersect.begin()));
+
+            set<unsigned> shingles_union;
+            set_union(shingles1.begin(), shingles1.end(), shingles2.begin(), shingles2.end(),
+                      inserter(shingles_union, shingles_union.begin()));
+            Res[i][j] = Res[j][i] = float(shingles_intersect.size()) / shingles_union.size();
         }
     }
     return Res;
 }
 
-vector<vector<double> > Comparator::get_multi_minhash_similarity() {
-    vector<vector<double>> Res(this->docs.size(), vector<double> (this->docs.size()));
+vector<vector<double>> Comparator::get_minhash_similarity() {
+    vector<int> c1 = generate_random_coefficients();
+    vector<int> c2 = generate_random_coefficients();
+    vector<vector<double>> Res(this->docs.size(), vector<double>(this->docs.size()));
     for (int i = 0; i < this->docs.size(); i++) {
-        Document* doc1 = this->docs[i];
         for (int j = i; j < this->docs.size(); j++) {
-            Document* doc2 = this->docs[j];
-            Comparator c = Comparator(doc1, doc2);
-            Res[i][j] = Res[j][i] = c.get_minhash_similarity();
+            vector<unsigned> sig1 = this->docs[i]->get_signature(c1, c2);
+            vector<unsigned> sig2 = this->docs[j]->get_signature(c1, c2);
+            float common = 0;
+            for (int i = 0; i < HASH_FUNCTIONS; i++) {
+                if (sig1[i] == sig2[i]) common++;
+            }
+            Res[i][j] = Res[j][i] = common / HASH_FUNCTIONS;
         }
     }
     return Res;
 }
 
-vector<vector<double> > Comparator::get_multi_lsh_similarity() {
-    vector<vector<double>> Res(this->docs.size(), vector<double> (this->docs.size()));
+vector<vector<double>> Comparator::get_multi_lsh_similarity() {
+    vector<vector<double>> Res(this->docs.size(), vector<double>(this->docs.size()));
+    /*
     for (int i = 0; i < this->docs.size(); i++) {
-        Document* doc1 = this->docs[i];
+        Document *doc1 = this->docs[i];
         for (int j = i; j < this->docs.size(); j++) {
-            Document* doc2 = this->docs[j];
+            Document *doc2 = this->docs[j];
             Comparator c = Comparator(doc1, doc2);
             Res[i][j] = Res[j][i] = c.get_lsh_similarity();
         }
     }
+    */
     return Res;
 }
