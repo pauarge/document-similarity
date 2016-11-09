@@ -14,11 +14,9 @@ void print_time(clock_t begin) {
 
 int main(int argc, char *argv[]) {
 
-    // TODO: Add time measuring features
-
     if (argc == 2) {
-        srand(time(NULL));
-        string path = argv[2];
+        string path = argv[1];
+
         if (!fs::exists(path) || !fs::is_directory(path)) {
             cout << "Could not read directory" << endl;
         }
@@ -28,16 +26,25 @@ int main(int argc, char *argv[]) {
         vector<Document *> docs;
 
         while (it != endit) {
-            if (fs::is_regular_file(*it) and it->path().extension() == "txt") {
-                Document doc = Document(it->path().string());
-                if (doc.valid) {
-                    docs.push_back(&doc);
+            if (fs::is_regular_file(*it) and it->path().extension() == ".txt") {
+                Document* doc = new Document(it->path().string());
+                if (doc->valid) {
+                    docs.push_back(doc);
                 }
             }
             it++;
         }
 
         Comparator comparator = Comparator(docs);
+
+        vector<vector<double>> D(2, vector<double> (2));
+        D = comparator.get_multi_jaccard_similarity();
+        for (vector<double> V : D) {
+            for (double d : V) {
+                cout << d << " " ;
+            }
+            cout << endl;
+        }
 
         /*
         clock_t begin = clock();
