@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 
         while (it != endit) {
             if (fs::is_regular_file(*it) and it->path().extension() == ".txt") {
-                Document* doc = new Document(it->path().string());
+                Document *doc = new Document(it->path().string());
                 if (doc->valid) {
                     docs.push_back(doc);
                 }
@@ -37,24 +37,30 @@ int main(int argc, char *argv[]) {
 
         Comparator comparator = Comparator(docs);
 
-        vector<vector<double>> D(2, vector<double> (2));
+        clock_t begin = clock();
+        cout << "Jaccard similarity" << endl;
+        vector<vector<double>> D(2, vector<double>(2));
         D = comparator.get_multi_jaccard_similarity();
         for (vector<double> V : D) {
             for (double d : V) {
-                cout << d << " " ;
+                cout << d << " ";
             }
             cout << endl;
         }
-
-        /*
-        clock_t begin = clock();
-        cout << "Jaccard similarity " << comparator.get_jaccard_similarity() << endl;
         print_time(begin);
 
         begin = clock();
-        cout << "Minhash similarity " << comparator.get_minhash_similarity() << endl;
+        cout << "Minhash similarity" << endl;
+        D = comparator.get_multi_minhash_similarity();
+        for (vector<double> V : D) {
+            for (double d:V) {
+                cout << d << " ";
+            }
+            cout << endl;
+        }
         print_time(begin);
 
+        /*
         begin = clock();
         cout << "LSH similarity " << comparator.get_lsh_similarity() << endl;
         print_time(begin);
