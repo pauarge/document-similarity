@@ -21,6 +21,9 @@ int main(int argc, char *argv[]) {
             cout << "Could not read directory" << endl;
         }
 
+        clock_t begin = clock();
+        cout << "Generating documents" << endl;
+
         fs::recursive_directory_iterator it(path);
         fs::recursive_directory_iterator endit;
         vector<Document *> docs;
@@ -36,10 +39,11 @@ int main(int argc, char *argv[]) {
             }
             it++;
         }
+        print_time(begin);
 
         Comparator comparator = Comparator(docs);
 
-        clock_t begin = clock();
+        begin = clock();
         cout << "Jaccard similarity" << endl;
         vector<vector<double>> D(docs.size(), vector<double>(docs.size()));
         D = comparator.get_jaccard_similarity();
@@ -63,7 +67,7 @@ int main(int argc, char *argv[]) {
         print_time(begin);
 
         begin = clock();
-        cout << "LSH similarity " << endl;
+        cout << "LSH similarity" << endl;
         D = comparator.get_lsh_similarity();
         for(vector<double> v : D) {
             for(double x : v) {
