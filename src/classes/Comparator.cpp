@@ -11,10 +11,10 @@ vector<vector<double>> Comparator::get_lsh_similarity() {
 
     vector<int> c1 = generate_random_coefficients();
     vector<int> c2 = generate_random_coefficients();
-    for(int i = 0; i < docs.size(); ++i) {
+    for (int i = 0; i < docs.size(); ++i) {
         vector<unsigned> sig1 = docs[i]->get_signature(c1, c2);
         vector<unsigned> lsh1 = get_bands(sig1);
-        for(int j = i; j < docs.size(); ++j) {
+        for (int j = i; j < docs.size(); ++j) {
             if (i == j) res[i][j] = 1;
             else {
                 vector<unsigned> sig2 = docs[j]->get_signature(c1, c2);
@@ -89,14 +89,18 @@ vector<vector<double>> Comparator::get_jaccard_similarity() {
 vector<vector<double>> Comparator::get_minhash_similarity() {
     vector<int> c1 = generate_random_coefficients();
     vector<int> c2 = generate_random_coefficients();
+
+    vector<vector<unsigned>> signatures(this->docs.size());
+    for (int i = 0; i < this->docs.size(); i++) {
+        signatures[i] = this->docs[i]->get_signature(c1, c2);
+    }
+
     vector<vector<double>> Res(this->docs.size(), vector<double>(this->docs.size()));
     for (int i = 0; i < this->docs.size(); i++) {
         for (int j = i; j < this->docs.size(); j++) {
-            vector<unsigned> sig1 = this->docs[i]->get_signature(c1, c2);
-            vector<unsigned> sig2 = this->docs[j]->get_signature(c1, c2);
             float common = 0;
-            for (int i = 0; i < HASH_FUNCTIONS; i++) {
-                if (sig1[i] == sig2[i]) common++;
+            for (int h = 0; h < HASH_FUNCTIONS; h++) {
+                if (signatures[i][h] == signatures[j][h]) common++;
             }
             Res[i][j] = Res[j][i] = common / HASH_FUNCTIONS;
         }
