@@ -32,7 +32,7 @@ Document::Document(string path) {
 
 
 vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2) {
-    set<unsigned> shingles = this->get_hashed_shingles(KSHINGLES);
+    set<unsigned> shingles = this->get_shingles(KSHINGLES);
     vector<unsigned> sig(HASH_FUNCTIONS);
     for (int i = 0; i < HASH_FUNCTIONS; i++) {
         sig[i] = UINT_MAX;
@@ -43,17 +43,7 @@ vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2) {
     return sig;
 }
 
-
-set<string> Document::get_shingles(unsigned k) const {
-    set<string> res;
-    for (unsigned i = 0; i <= this->data.length() - k; i++) {
-        string temp = this->data.substr(i, k);
-        res.insert(temp);
-    }
-    return res;
-}
-
-set<unsigned> Document::get_hashed_shingles(unsigned k) const {
+set<unsigned> Document::get_shingles(unsigned k) const {
     set<unsigned> res;
     for (unsigned i = 0; i <= this->data.length() - k; i++) {
         string temp = this->data.substr(i, k);
@@ -104,10 +94,10 @@ string Document::get_permutation() const {
     return res;
 }
 
-vector<Document*> Document::get_permutations(int k) const {
-    std::vector<Document*> res;
+vector<Document *> Document::get_permutations(int k) const {
+    std::vector<Document *> res;
     for (int i = 0; i < k; i++) {
-        Document* temp = new Document(true, this->get_permutation());
+        Document *temp = new Document(true, this->get_permutation());
         res.push_back(temp);
     }
     return res;

@@ -32,11 +32,9 @@ public:
 
     vector<unsigned> get_signature(vector<int> &c1, vector<int> &c2);
 
-    set<string> get_shingles(unsigned k) const;
+    set<unsigned> get_shingles(unsigned k) const;
 
-    set<unsigned> get_hashed_shingles(unsigned k) const;
-
-    vector<Document*> get_permutations(int k) const;
+    vector<Document *> get_permutations(int k) const;
 
     std::string get_permutation() const;
 

@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
                 Document *doc = new Document(it->path().string());
                 if (doc->valid) {
                     docs.push_back(doc);
-                    vector<Document*> temp = doc->get_permutations(TEST_DOCS);
+                    vector<Document *> temp = doc->get_permutations(TEST_DOCS);
                     docs.insert(docs.end(), temp.begin(), temp.end());
                 }
             }
@@ -69,8 +69,8 @@ int main(int argc, char *argv[]) {
         begin = clock();
         cout << "LSH similarity" << endl;
         D = comparator.get_lsh_similarity();
-        for(vector<double> v : D) {
-            for(double x : v) {
+        for (vector<double> v : D) {
+            for (double x : v) {
                 cout << x << " ";
             }
             cout << endl;

@@ -15,8 +15,6 @@ using namespace std;
 class Comparator {
 
 public:
-    Comparator(Document *doc1, Document *doc2);
-
     Comparator(vector<Document *> V);
 
     vector<vector<double>> get_jaccard_similarity();
