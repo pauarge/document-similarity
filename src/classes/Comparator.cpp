@@ -11,26 +11,28 @@ vector<vector<double>> Comparator::get_lsh_similarity() {
 
     vector<int> c1 = generate_random_coefficients();
     vector<int> c2 = generate_random_coefficients();
+
+    vector<vector<unsigned>> signatures(this->docs.size());
+    for (int i = 0; i < this->docs.size(); i++) {
+        signatures[i] = this->docs[i]->get_signature(c1, c2);
+    }
     for (int i = 0; i < docs.size(); ++i) {
-        vector<unsigned> sig1 = docs[i]->get_signature(c1, c2);
-        vector<unsigned> lsh1 = get_bands(sig1);
+        vector<unsigned> lsh1 = get_bands(signatures[i]);
         for (int j = i; j < docs.size(); ++j) {
             if (i == j) res[i][j] = 1;
             else {
-                vector<unsigned> sig2 = docs[j]->get_signature(c1, c2);
-
-                vector<unsigned> lsh2 = get_bands(sig2);
+                vector<unsigned> lsh2 = get_bands(signatures[j]);
                 float common = 0;
-                for (int i = 0; i < BANDS; ++i) {
-                    if (lsh1[i] == lsh2[i]) ++common;
+                for (int k = 0; k < BANDS; ++k) {
+                    if (lsh1[k] == lsh2[k]) ++common;
                 }
-                if (common / BANDS >= threshold) {
+                if (common / BANDS >= threshold/2) {
                     common = 0;
-                    for (int i = 0; i < HASH_FUNCTIONS; i++) {
-                        if (sig1[i] == sig2[i]) common++;
+                    for (int t = 0; t < HASH_FUNCTIONS; t++) {
+                        if (signatures[i][t] == signatures[j][t]) common++;
                     }
-                    res[i][j] = common / HASH_FUNCTIONS;
-                } else res[i][j] = 0;
+                    res[i][j] = res[j][i] = common / HASH_FUNCTIONS;
+                } else res[i][j] = res[j][i] = 0;
             }
         }
     }

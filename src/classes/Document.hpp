@@ -10,7 +10,7 @@ using namespace std;
 
 #define TEST_DOCS 10
 #define KSHINGLES 9
-#define HASH_FUNCTIONS 250
+#define HASH_FUNCTIONS 100
 
 
 #ifndef DOCUMENT_SIMILARITY_DOCUMENT_HPP
