@@ -26,7 +26,7 @@ vector<vector<double>> Comparator::get_lsh_similarity() {
                 for (int k = 0; k < BANDS; ++k) {
                     if (lsh1[k] == lsh2[k]) ++common;
                 }
-                if (common / BANDS >= threshold/2) {
+                if (common / BANDS >= threshold / 2) {
                     common = 0;
                     for (int t = 0; t < HASH_FUNCTIONS; t++) {
                         if (signatures[i][t] == signatures[j][t]) common++;
@@ -70,17 +70,20 @@ vector<int> Comparator::generate_random_coefficients() {
 
 vector<vector<double>> Comparator::get_jaccard_similarity() {
     vector<vector<double>> Res(this->docs.size(), vector<double>(this->docs.size()));
+
+    vector<set<unsigned>> shingles(this->docs.size());
+    for (int i = 0; i < this->docs.size(); i++) {
+        shingles[i] = this->docs[i]->get_hashed_shingles(KSHINGLES);
+    }
+
     for (int i = 0; i < this->docs.size(); i++) {
         for (int j = i; j < this->docs.size(); j++) {
-            set<unsigned> shingles1 = this->docs[i]->get_hashed_shingles(KSHINGLES);
-            set<unsigned> shingles2 = this->docs[j]->get_hashed_shingles(KSHINGLES);
-
             set<unsigned> shingles_intersect;
-            set_intersection(shingles1.begin(), shingles1.end(), shingles2.begin(), shingles2.end(),
+            set_intersection(shingles[i].begin(), shingles[i].end(), shingles[j].begin(), shingles[j].end(),
                              inserter(shingles_intersect, shingles_intersect.begin()));
 
             set<unsigned> shingles_union;
-            set_union(shingles1.begin(), shingles1.end(), shingles2.begin(), shingles2.end(),
+            set_union(shingles[i].begin(), shingles[i].end(), shingles[j].begin(), shingles[j].end(),
                       inserter(shingles_union, shingles_union.begin()));
             Res[i][j] = Res[j][i] = float(shingles_intersect.size()) / shingles_union.size();
         }
