@@ -8,12 +8,10 @@
 
 Document::Document(bool b, string d) {
     this->data = d;
-    this->HASH_FUNCTIONS = DEFAULT_HASH_FUNCTIONS;
 }
 
 Document::Document(string path) {
     this->path = path;
-    this->HASH_FUNCTIONS = DEFAULT_HASH_FUNCTIONS;
 
     ifstream docfile;
     docfile.open(this->path);
@@ -32,7 +30,9 @@ Document::Document(string path) {
     }
 }
 
-vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2) {
+
+
+vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2, unsigned HASH_FUNCTIONS) {
     set<unsigned> shingles = this->get_shingles(KSHINGLES);
     vector<unsigned> sig(HASH_FUNCTIONS);
     for (int i = 0; i < HASH_FUNCTIONS; i++) {

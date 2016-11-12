@@ -8,9 +8,11 @@ class Experiments {
 
 public:
 
-    void static print_time(clock_t begin);
+    Experiments();
 
-    void static experiment_hashFunctions(Comparator comparator, unsigned n);
+    double print_time(clock_t begin);
+
+    void experiment_hashFunctions(Comparator comparator, unsigned n);
 
 };
 

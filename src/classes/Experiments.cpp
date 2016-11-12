@@ -1,34 +1,39 @@
 #include "Experiments.hpp"
 
 
-void Experiments::print_time(clock_t begin) {
+double Experiments::print_time(clock_t begin) {
     clock_t end = clock();
     double elapsed = double(end - begin) / CLOCKS_PER_SEC;
-    cout << "Calculated in " << elapsed << " seconds." << endl << endl;
+    return elapsed;
 }
 
 void Experiments::experiment_hashFunctions (Comparator comparator,unsigned n) {
 
-    for (unsigned k = 25; k < 500; k += 25) {
+    for (unsigned k = 25; k <= 500; k += 25) {
 
-        cout << k << " Hash functions" << endl;
+        comparator.setHashFunctions(k);
+
+        cout << k << " Hash functions " << endl;
 
         clock_t begin = clock();
-        cout << "Jaccard similarity" << endl;
         vector<vector<double>> jaccard_res = comparator.get_jaccard_similarity();
-        print_time(begin);
+        double t1 = print_time(begin);
 
         begin = clock();
-        cout << "Minhash similarity" << endl;
         vector<vector<double>> minhash_res = comparator.get_minhash_similarity();
-        print_time(begin);
+        double t2 = print_time(begin);
 
+        cout << "Difference Jaccard - Minhash = " << t1- t2;
         float diff = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 diff += abs(jaccard_res[i][j] - minhash_res[i][j]);
             }
         }
-        cout << "Precision total deviation (between Jaccard and Minhash): " << diff << endl;
+        cout << " Desviation (between Jaccard and Minhash): " << diff << endl;
     }
+}
+
+Experiments::Experiments() {
+
 }

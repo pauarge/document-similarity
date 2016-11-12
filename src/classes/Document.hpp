@@ -9,7 +9,7 @@
 using namespace std;
 
 #define DEFAULT_HASH_FUNCTIONS 100
-#define TEST_DOCS 20
+#define TEST_DOCS 0
 #define KSHINGLES 9
 
 
@@ -25,13 +25,12 @@ public:
     bool valid;
     string data;
     string path;
-    unsigned HASH_FUNCTIONS;
 
     Document(bool b, string d);
 
     Document(std::string path);
 
-    vector<unsigned> get_signature(vector<int> &c1, vector<int> &c2);
+    vector<unsigned> get_signature(vector<int> &c1, vector<int> &c2, unsigned HASH_FUNCTIONS);
 
     set<unsigned> get_shingles(unsigned k) const;
 

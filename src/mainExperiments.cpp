@@ -5,9 +5,17 @@
 
 namespace fs = ::boost::filesystem;
 
+
+void print_time(clock_t begin) {
+    clock_t end = clock();
+    double elapsed = double(end - begin) / CLOCKS_PER_SEC;
+    cout << "Calculated in " << elapsed << " seconds." << endl << endl;
+}
+
+
 int main(int argc, char *argv[]) {
 
-    /*if (argc == 2) {
+    if (argc == 2) {
         string path = argv[1];
 
         if (!fs::exists(path) || !fs::is_directory(path)) {
@@ -32,23 +40,14 @@ int main(int argc, char *argv[]) {
             }
             it++;
         }
-        Experiments::print_time(begin);
+        print_time(begin);
 
         Comparator comparator = Comparator(docs);
+        Experiments experiment = Experiments();
+        experiment.experiment_hashFunctions(comparator, docs.size());
 
-        int n = 1;
-        while(n != 0) {
-            switch(n) {
-                case 1:
-                    Experiments::experiment_hashFunctions(comparator, docs.size());
-                    break;
-                default:
-                    break;
-            }
-            n = 0;
-        }
     } else {
         cout << "Invalid number of arguments" << endl;
-    }*/
+    }
 }
 

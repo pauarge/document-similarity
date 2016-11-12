@@ -5,6 +5,7 @@
 
 using namespace std;
 
+#define DEFAULT_HASH_FUNCTIONS 100
 #define BANDS 25
 #define ROWS 4
 
@@ -22,6 +23,8 @@ public:
     vector<vector<double>> get_minhash_similarity();
 
     vector<vector<double>> get_lsh_similarity();
+
+    void setHashFunctions(unsigned n);
 
 private:
     vector<Document *> docs;
