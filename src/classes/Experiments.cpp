@@ -7,7 +7,7 @@ double Experiments::print_time(clock_t begin) {
     return elapsed;
 }
 
-void Experiments::experiment_hashFunctions (Comparator comparator,unsigned n) {
+void Experiments::experiment_hashFunctions(Comparator comparator, unsigned n) {
 
     for (unsigned k = 25; k <= 500; k += 25) {
 
@@ -23,7 +23,7 @@ void Experiments::experiment_hashFunctions (Comparator comparator,unsigned n) {
         vector<vector<double>> minhash_res = comparator.get_minhash_similarity();
         double t2 = print_time(begin);
 
-        cout << "Difference Jaccard - Minhash = " << t1- t2;
+        cout << "Difference Jaccard - Minhash = " << t1 - t2;
         float diff = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {

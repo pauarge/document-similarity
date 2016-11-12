@@ -5,12 +5,10 @@ find_package(Boost COMPONENTS system filesystem REQUIRED)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-file(GLOB classes
-        "src/classes/*.hpp"
-        "src/classes/*.cpp"
-        )
+file(GLOB classes "src/classes/*.hpp" "src/classes/*.cpp")
+file(GLOB utils "src/utils/*.hpp" "src/utils/*.cpp")
 
-add_executable(comparator src/main.cpp ${classes})
-add_executable(experiments src/mainExperiments.cpp ${classes})
+add_executable(comparator src/main.cpp ${classes} ${utils})
+add_executable(experiments src/mainExperiments.cpp ${classes} ${utils})
 target_link_libraries(comparator ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(experiments ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})

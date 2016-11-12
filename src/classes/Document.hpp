@@ -19,8 +19,6 @@ using namespace std;
 
 class Document {
 
-// TODO: Prevent crash with documents of length < k
-
 public:
     bool valid;
     string data;

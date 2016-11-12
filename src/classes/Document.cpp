@@ -25,11 +25,16 @@ Document::Document(string path) {
         this->data.assign((istreambuf_iterator<char>(docfile)), istreambuf_iterator<char>());
 
         docfile.close();
+
+        if (this->data.length() < KSHINGLES) {
+            this->valid = false;
+            cout << "The document is shorter than the minimum value of k" << endl;
+        }
+
     } else {
         this->valid = false;
     }
 }
-
 
 
 vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2, unsigned HASH_FUNCTIONS) {
