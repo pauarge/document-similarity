@@ -30,6 +30,8 @@ private:
 
     float threshold;
 
+    unsigned HASH_FUNCTIONS;
+
     vector<unsigned> get_bands(vector<unsigned> &sig);
 };
 

@@ -5,6 +5,7 @@
 
 Comparator::Comparator(vector<Document *> V) {
     this->docs = V;
+    this->HASH_FUNCTIONS = docs[0]->HASH_FUNCTIONS;
     this->threshold = pow((1 / (float) BANDS), (1 / (float) ROWS));
 }
 

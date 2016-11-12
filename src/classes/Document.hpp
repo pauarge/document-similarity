@@ -41,7 +41,6 @@ public:
 
 private:
     unsigned fast_hash(int c1, int c2, unsigned val);
-
 };
 
 

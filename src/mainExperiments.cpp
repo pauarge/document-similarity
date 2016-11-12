@@ -5,10 +5,9 @@
 
 namespace fs = ::boost::filesystem;
 
-
 int main(int argc, char *argv[]) {
 
-    if (argc == 2) {
+    /*if (argc == 2) {
         string path = argv[1];
 
         if (!fs::exists(path) || !fs::is_directory(path)) {
@@ -41,16 +40,15 @@ int main(int argc, char *argv[]) {
         while(n != 0) {
             switch(n) {
                 case 1:
-                Experiments::experiment_hashFunctions(comparator, docs.size());
+                    Experiments::experiment_hashFunctions(comparator, docs.size());
                     break;
                 default:
-                    cout << "Invalid menu number" << endl;
                     break;
             }
             n = 0;
         }
     } else {
         cout << "Invalid number of arguments" << endl;
-    }
+    }*/
 }
 

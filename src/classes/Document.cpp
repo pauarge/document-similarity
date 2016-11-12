@@ -32,7 +32,6 @@ Document::Document(string path) {
     }
 }
 
-
 vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2) {
     set<unsigned> shingles = this->get_shingles(KSHINGLES);
     vector<unsigned> sig(HASH_FUNCTIONS);
