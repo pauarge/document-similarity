@@ -1,17 +1,18 @@
 #include "Experiments.hpp"
+#include "Document.hpp"
 
-void print_time(clock_t begin) {
+
+void static Experiments::print_time(clock_t begin) {
     clock_t end = clock();
     double elapsed = double(end - begin) / CLOCKS_PER_SEC;
     cout << "Calculated in " << elapsed << " seconds." << endl << endl;
 }
 
-void experiment_hashFunctions (Comparator comparator, int n) {
+void static Experiments::experiment_hashFunctions (Comparator comparator,unsigned n) {
 
-    for (int k = 25; k < 500; k += 25) {
+    for (unsigned k = 25; k < 500; k += 25) {
 
-        HASH_FUNCTIONS k;
-
+        // TODO : INCLOURE HASH_FUNCTIONS = k (o semblant)
         cout << k << " Hash functions" << endl;
 
         clock_t begin = clock();

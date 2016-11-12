@@ -8,10 +8,12 @@
 
 Document::Document(bool b, string d) {
     this->data = d;
+    this->HASH_FUNCTIONS = DEFAULT_HASH_FUNCTIONS;
 }
 
 Document::Document(string path) {
     this->path = path;
+    this->HASH_FUNCTIONS = DEFAULT_HASH_FUNCTIONS;
 
     ifstream docfile;
     docfile.open(this->path);

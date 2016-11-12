@@ -5,9 +5,10 @@
 #include <cmath>
 #include <boost/crc.hpp>
 #include <boost/functional/hash.hpp>
-#include "Experiments.hpp"
 
-#define HASH_FUNCTIONS 100
+using namespace std;
+
+#define DEFAULT_HASH_FUNCTIONS 100
 #define TEST_DOCS 20
 #define KSHINGLES 9
 
@@ -24,6 +25,7 @@ public:
     bool valid;
     string data;
     string path;
+    unsigned HASH_FUNCTIONS;
 
     Document(bool b, string d);
 

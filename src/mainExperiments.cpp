@@ -33,19 +33,21 @@ int main(int argc, char *argv[]) {
             }
             it++;
         }
-        print_time(begin);
+        Experiments::print_time(begin);
 
         Comparator comparator = Comparator(docs);
 
-        int n;
-        cin >> n;
+        int n = 1;
         while(n != 0) {
             switch(n) {
                 case 1:
-                    experiment_k(comparator, docs.size());
+                Experiments::experiment_hashFunctions(comparator, docs.size());
+                    break;
+                default:
+                    cout << "Invalid menu number" << endl;
                     break;
             }
-            cin >> n;
+            n = 0;
         }
     } else {
         cout << "Invalid number of arguments" << endl;
