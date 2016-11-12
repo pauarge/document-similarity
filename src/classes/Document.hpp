@@ -7,8 +7,6 @@
 #include <boost/functional/hash.hpp>
 #include "Experiments.hpp"
 
-using namespace std;
-
 #define TEST_DOCS 20
 #define KSHINGLES 9
 
