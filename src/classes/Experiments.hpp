@@ -1,5 +1,6 @@
 #include "Comparator.hpp"
 
+#undef HASH_FUNCTIONS
 #define HASH_FUNCTIONS
 
 #ifndef DOCUMENT_SIMILARITY_EXPERIMENTS_H
