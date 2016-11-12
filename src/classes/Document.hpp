@@ -5,12 +5,12 @@
 #include <cmath>
 #include <boost/crc.hpp>
 #include <boost/functional/hash.hpp>
+#include "Experiments.hpp"
 
 using namespace std;
 
 #define TEST_DOCS 20
 #define KSHINGLES 9
-#define HASH_FUNCTIONS 100
 
 
 #ifndef DOCUMENT_SIMILARITY_DOCUMENT_HPP

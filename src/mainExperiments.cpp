@@ -1,7 +1,7 @@
 #include <ctime>
 #include <boost/filesystem.hpp>
-#include "Comparator.hpp"
-#include "Experiments.hpp"
+#include "classes/Comparator.hpp"
+#include "classes/Experiments.hpp"
 
 namespace fs = ::boost::filesystem;
 

@@ -1,6 +1,5 @@
 #include "Experiments.hpp"
 
-
 void print_time(clock_t begin) {
     clock_t end = clock();
     double elapsed = double(end - begin) / CLOCKS_PER_SEC;
@@ -10,8 +9,8 @@ void print_time(clock_t begin) {
 void experiment_hashFunctions (Comparator comparator, int n) {
 
     for (int k = 25; k < 500; k += 25) {
-        #undef HASH_FUNCTIONS
-        #define HASH_FUNCTIONS k
+
+        HASH_FUNCTIONS k;
 
         cout << k << " Hash functions" << endl;
 

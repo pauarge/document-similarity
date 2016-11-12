@@ -11,6 +11,6 @@ file(GLOB classes
         )
 
 add_executable(comparator src/main.cpp ${classes})
-add_executable(experiments src/classes/mainExperiments.cpp ${classes})
+add_executable(experiments src/mainExperiments.cpp ${classes})
 target_link_libraries(comparator ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(experiments ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
