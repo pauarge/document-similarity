@@ -1,0 +1,164 @@
+	\documentclass[catalan, 12pt]{report}
+\usepackage[a4paper]{geometry}
+\usepackage[myheadings]{fullpage}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{graphicx, wrapfig, subcaption, setspace, booktabs}
+\usepackage[T1]{fontenc}
+\usepackage[font=small, labelfont=bf]{caption}
+\usepackage{fourier}
+\usepackage[protrusion=true, expansion=true]{microtype}
+\usepackage[english]{babel}
+\usepackage{sectsty}
+\usepackage{url, lipsum}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{titlesec}
+\usepackage{listings}
+\titleformat{\chapter}{\normalfont\huge}{\thechapter.}{20pt}{\huge}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\onehalfspacing
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+
+%-------------------------------------------------------------------------------
+% HEADER & FOOTER
+%-------------------------------------------------------------------------------
+%\pagestyle{fancy}
+\fancyhf{}
+\setlength\headheight{15pt}
+%-------------------------------------------------------------------------------
+% TITLE PAGE
+%-------------------------------------------------------------------------------
+
+\addto\captionsenglish{% Replace "english" with the language you use
+  \renewcommand{\contentsname}{Continguts}
+}
+\begin{document}
+\date{}
+\title{
+		\HRule{2pt} \\ [0.5cm]
+		\textbf{Similitud entre Documents \\ }
+        {Algorísmia - Facultat d'Informàtica de Barcelona}
+		\HRule{2pt} \\ [0.5cm]
+        \vspace{100px}
+		}
+\date{}
+\author{
+		Pau Argelaguet \\ Rubén Marías \\ Victor Massagué  \\
+	    }
+\date{}
+\maketitle
+\tableofcontents
+\thispagestyle{empty}
+
+\chapter{Introducció  i objectius}
+
+Aquesta pràctica ha servit per veure un sistema per identificar similituds entre documents. S'ha dividit en tres subapartats, que explicarem més endavant, que tot i obtenint sempre el mateix objectiu (un score per saber si dos documents són similars), ho fan amb mètodes diferents amb un cost espacial i temporal diferent.
+
+Tot i que la similitud és un concepte relativament subjectiu, ens centrarem en la identificació de la similitud i no en la similitud lèxica tot i que també és un problema molt interessant.
+
+\chapter{Implementació}
+
+Procedim ara a veure com hem implementat la solució proposada al paper. [REFERÈNCIA AL PAPER, PLS]
+
+\section{Llibreries i eines utilitzades}
+
+El llenguatge de programació ve imposat per l'enunciat de la pràctica, és a dir, C++. Nosaltres hem decidit fer servir la versió C++11, perquè és una força moderna compatible amb la gran majoria de compiladors actuals i que a més ens permet usar construccions que agilitzen el desenvolupament, com ara \verb|auto|, \verb|vector<vector<int>>| (en comptes de \verb|vector<vector<int> >|) o \verb|for(auto e : V)|.
+
+Hem aprofitat la orientació a objectes de C++.
+
+Hem creat tres classes:
+
+\begin{itemize}
+\item Comparator.
+\item Document.
+\item Experiments.
+\end{itemize}
+
+
+També hem usat la llibreria Boost. Boost, de fet, és un conjunt de llibreries de C++ de molt renom. Les funcionalitats de Boost que hem fet servir han sigut: [LINK A BOOST PLS]
+
+\begin{itemize}
+\item CRC
+\item Filesystem
+\end{itemize}
+
+Per a la compilació i linkat hem fet servir CMake. CMake és un sistema de gestió de builds que facilita molt el desenvolupament. S'integra amb l'entorn de desenvolupament (IDE) que hem utilitzat [LINK A CMAKE PLS]
+
+\section{Funcionament bàsic}
+
+El programa té dos executables (main), \verb|main.cpp| i \verb|mainExperiments.cpp|. En aquesta secció procedirem a explicar el funcionament del primer, el segon és per executar els experiments que s'expliquen al pertinent apartat d'experiments.
+
+El programa rep com a argument de línia de comandaments una direcció a un directori, que pot ser relativa o absoluta. Llavors, obrirà aquest directori, llegirà tots els fitxers amb extensió \verb|.txt| que contingui i instanciarà un vector amb punters a objectes \verb|Document|.
+
+Aquest codi, al ser comú pels dos arxius main, es troba dins la classe \verb|Utils|. Ho hem fet de tal manera per a ser més eficients i poder reutilitzar ràpidament.
+
+Llavors, executem per a aquest conjunt de documents, generarem una matriu de similituds, de tal manera que la casella \verb|M(i,j)| contindrà la similitud, en escala de 0 a 1, entre el document \textit{i} i el \textit{j}. Com que el valor de \verb|M(i,j)| és el mateix que \verb|M(j,i)|, realment només calculem la meitat de la matriu, però imprimim per la pantalla la matriu completa per facilitar-ne la comprensió.
+
+Quan s'executa el programa principal, imprimim tres matrius
+
+\subsection{El control de temps}
+
+\subsection{L'objecte Document}
+
+\subsection{L'objecte Comparator}
+
+
+\section{Similitud de Jaccard}
+
+Per a implementar la similitud de Jaccard entre dos documents, hem fer servir la fórmula subministrada a l'enunciat com a base.
+
+Llavors, la implementació és força simple: detectem
+
+\section{Similitud per Minhash}
+
+\section{LSH}
+
+\section{Optimizacions proposades}
+
+Un dels problemes que ens vam trobar durant la implementació és que tenia un comportament erràtic quan la longitud del document era menor a la k escollida per la llargada del shingles. Bàsicament això significa que intentàvem fer \textit{substr} de longitud k en una cadena que no contenia suficients caràcters. Per això, vam decidir restringir els documents a tenir una longitud major que la de k. En qualsevol cas, es traca d'un cas extrem i la limitació l'hem posat simplement per a controlar comportaments estranys.
+
+Perquè vam descartar la funció get\_shingles que retornava els shingles tal i qual i vam fer servir la que ho feia amb
+
+\subsection{LSH amb Distància de Levenshtein}
+
+\section{Generació de permutacions d'un document}
+
+\chapter{Validació experimental}
+\section{Descripció dels jocs de prova}
+
+SET1: Permutacions segment article financial times sobre la victòria de Trump. (20 perms de 50 words). \newline
+
+SET2: Permutacions d'un fragment de l'obra de Ciceró. (50 perms de 100 words) \newline
+
+SET3: Permutacions d'un fragment d'un article periodístic de política actual. (30 perms de 70 words)\newline
+
+SET4: Permutacions text wikipèdia algorisme dijkstra. (40 perms de 75 words)
+
+SET5: Permutacio enunciat practica.
+
+\section{Tria del valor de k}
+
+La tria del valor de k fa referència a l'el·lecció de la mida dels \textit{shingles} que utilitzen els diferents algorismes de manera més o menys directa. És una decisió important a considerar ja que un valor de k incorrecte pot provocar l'aparença de similitud en documents no similars o simètricament, l'aparença de dissimilitud en documents similars. Qualsevol d'aquestes dues situacions provocaria un mal funcionament dels nostres algorismes, per tant l'establiment d'un valor de \textit{k} és fonamental. \newline
+
+Per les raons comentades anteriorment, la tria del valor de \textit{k} s'ha de fer considerant la llargada dels documents que tractarem. Tot i això, independentment de la llargada dels documents el valor de \textit{k} ha de ser suficientment gran com per a que la probabilitat de que un \textit{shingle} qualsevol aparegui en un document arbitrari sigui baixa. \newline
+
+Els jocs de prova utilitzats contenen entre 50 i 100 paraules. La llargada mitjana d'una paraula són 5 caràcters, els jocs de prova contenen entre 250 i 500 caràcters. A més a més, dels caràcters de l'alfabet n'hi ha 20 que apareixen majoritàriament. Així doncs, \(  20^k \) és una estimació raonable del nombre de \textit{shingles}. Per tant, el nombre de caràcters dels documents a comparar ha de ser petit en relació a \(  20^k \); atenent a la longitud dels documents considerats, un valor de k = 6 donarà resultats satisfactoris. Tot i que s'experimentarà amb diferents valors de k, s'utilitzarà aquest valor com una primera referència.
+
+\section{Influència del numero de funcions i bandes en LSH}
+
+Per estudiar la influència del nombre de funcions de hash, el nombre de bandes i implícitament el nombre de fil·les per banda, duem a terme el següent experiment: \newline
+
+Prenem com a referència la similaritat de Jaccard. Posar gràfics experiments fets per fins a 200 funcions de hash, de 10 en 10, conclusió 50 és el nombre que dona una precisió més alta en els nostres jocs de prova.
+
+%\begin{center}
+%  \makebox[\textwidth]{\includegraphics[width=430pt]{testset1.png}}
+%\end{center}
+
+\section{Tria de paràmetres del algorísme LSH}
+
+\chapter{Conclusions}
+\end{document}
