@@ -5,7 +5,7 @@
 
 using namespace std;
 
-#define DEFAULT_HASH_FUNCTIONS 100
+#define DEFAULT_HASH_FUNCTIONS 50
 #define DEFAULT_BANDS 25
 #define DEFAULT_ROWS 4
 
@@ -28,6 +28,8 @@ public:
 
     void setBandsRows(unsigned b, unsigned r);
 
+    vector<vector<double>> get_lshAdvanced_similarity();
+
 private:
     vector<Document *> docs;
 
@@ -42,6 +44,8 @@ private:
     unsigned HASH_FUNCTIONS;
 
     vector<unsigned> get_bands(vector<unsigned> &sig);
+
+    int get_levenshteinDistance(const string &s1, const string &s2);
 
 };
 

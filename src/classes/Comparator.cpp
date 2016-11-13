@@ -126,3 +126,58 @@ void Comparator::setBandsRows(unsigned b, unsigned r) {
     this->BANDS = b;
     this->ROWS = r;
 }
+
+vector<vector<double>> Comparator::get_lshAdvanced_similarity() {
+    vector<vector<double>> res(docs.size(), vector<double>(docs.size()));
+
+    vector<int> c1 = generate_random_coefficients();
+    vector<int> c2 = generate_random_coefficients();
+
+    vector<vector<unsigned>> signatures(this->docs.size());
+    vector<vector<unsigned>> lsh(this->docs.size());
+    for (int i = 0; i < this->docs.size(); i++) {
+        signatures[i] = this->docs[i]->get_signature(c1,c2,HASH_FUNCTIONS);
+        lsh[i] = get_bands(signatures[i]);
+    }
+
+    for (int i = 0; i < docs.size(); ++i) {
+        for (int j = i; j < docs.size(); ++j) {
+            if (i == j) res[i][j] = 0;
+            else {
+                float common = 0;
+                for (int k = 0; k < BANDS; ++k) {
+                    if (lsh[i][k] == lsh[j][k]) ++common;
+                }
+                if (common / BANDS >= threshold / 2) {
+                    res[i][j] = res[j][i] = get_levenshteinDistance(docs[i]->data, docs[j]->data);
+                } else res[i][j] = res[j][i] = -1;
+            }
+        }
+    }
+    return res;
+}
+
+int Comparator::get_levenshteinDistance(const string &s1, const string &s2) {
+    int N1 = s1.size();
+    int N2 = s2.size();
+    int i, j;
+    vector<int> T(N2+1);
+
+    for ( i = 0; i <= N2; i++ ) {
+        T[i] = i;
+    }
+    for ( i = 0; i < N1; i++ ) {
+        T[0] = i+1;
+        int corner = i;
+        for ( j = 0; j < N2; j++ ) {
+            int upper = T[j+1];
+            if ( s1[i] == s2[j] )
+                T[j+1] = corner;
+            else {
+                T[j + 1] = min(T[j], min(upper, corner)) + 1;
+            }
+            corner = upper;
+        }
+    }
+    return T[N2];
+}

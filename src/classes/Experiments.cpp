@@ -41,7 +41,6 @@ void Experiments::experiment_hashFunctions(Comparator comparator, unsigned n) {
 
 void Experiments::experiment_parametresLSH(Comparator comparator) {
 
-    //unsigned v[12] = {50,2,25,4,10,10,20,5,5,20,2,50}; ///En el cas que escollissim hashfunctions = 100
     unsigned U[20] = {10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200};
 
     for (int u = 0; u < 20; u++) {
@@ -53,13 +52,7 @@ void Experiments::experiment_parametresLSH(Comparator comparator) {
         clock_t x = clock();
         vector<vector<double>> min_res = comparator.get_minhash_similarity();
         double t1 = print_time(x);
-        /*for (vector<double> V : min_res) {
-            for (double x : V) {
-                cout << x << " ";
-            }
-            cout << endl;
-        }
-        cout << endl;*/
+
 
         for(int i = 0; i < 6; i += 2) {
 
@@ -69,14 +62,7 @@ void Experiments::experiment_parametresLSH(Comparator comparator) {
             cout << "LSH similarity Bands = " << v[i] << " Rows = " << v[i+1] << endl;
             vector<vector<double>> lsh_res = comparator.get_lsh_similarity();
             double t2 = print_time(begin);
-            /*
-            for (vector<double> V : lsh_res) {
-                for (double x : V) {
-                    cout << x << " ";
-                }
-                cout << endl;
-            }
-             */
+
             double diff = 0;
             for (int n = 0; n < lsh_res.size(); n++) {
                 for (int m = 0; m < lsh_res.size(); m++) {
@@ -84,8 +70,8 @@ void Experiments::experiment_parametresLSH(Comparator comparator) {
                 }
             }
             differ += diff/(double(lsh_res.size()*lsh_res.size()));
-            std::cout << "Avg Difference: " << diff/(double(lsh_res.size()*lsh_res.size())) << std::endl;
-            if (i == 4) std::cout << "Avg Difference for the group: " << differ/3 << std::endl;
+            cout << "Avg Difference: " << diff/(double(lsh_res.size()*lsh_res.size())) << endl;
+            if (i == 4) std::cout << "Avg Difference for the group: " << differ/3 << endl;
             cout << "Time Minhash - LSH "<< t1 - t2 << " s" << endl << endl;
         }
     }

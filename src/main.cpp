@@ -41,6 +41,17 @@ int main(int argc, char *argv[]) {
         }
         print_time(begin);
 
+        begin = clock();
+        cout << "LSH advanced similarity" << endl;
+        vector<vector<double>> lshAdvanced_res = comparator.get_lshAdvanced_similarity();
+        for (vector<double> V : lshAdvanced_res) {
+            for (double x : V) {
+                cout << x << " ";
+            }
+            cout << endl;
+        }
+        print_time(begin);
+
         float diff = 0;
         for (int i = 0; i < docs.size(); i++) {
             for (int j = 0; j < docs.size(); j++) {

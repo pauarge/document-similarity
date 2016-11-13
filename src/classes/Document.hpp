@@ -8,7 +8,6 @@
 
 using namespace std;
 
-#define DEFAULT_HASH_FUNCTIONS 100
 #define TEST_DOCS 0
 #define KSHINGLES 9
 
@@ -36,8 +35,8 @@ public:
 
     std::string get_permutation() const;
 
-private:
     unsigned fast_hash(int c1, int c2, unsigned val);
+
 };
 
 
