@@ -6,6 +6,8 @@ Comparator::Comparator(vector<Document *> V) {
     this->docs = V;
     this->HASH_FUNCTIONS = DEFAULT_HASH_FUNCTIONS;
     this->threshold = pow((1 / (float) BANDS), (1 / (float) ROWS));
+    this->BANDS = DEFAULT_BANDS;
+    this->ROWS = DEFAULT_ROWS;
 }
 
 vector<vector<double>> Comparator::get_lsh_similarity() {
@@ -15,18 +17,19 @@ vector<vector<double>> Comparator::get_lsh_similarity() {
     vector<int> c2 = generate_random_coefficients();
 
     vector<vector<unsigned>> signatures(this->docs.size());
+    vector<vector<unsigned>> lsh(signatures.size());
     for (int i = 0; i < this->docs.size(); i++) {
         signatures[i] = this->docs[i]->get_signature(c1, c2, HASH_FUNCTIONS);
+        lsh[i] = get_bands(signatures[i]);
     }
+
     for (int i = 0; i < docs.size(); ++i) {
-        vector<unsigned> lsh1 = get_bands(signatures[i]);
         for (int j = i; j < docs.size(); ++j) {
             if (i == j) res[i][j] = 1;
             else {
-                vector<unsigned> lsh2 = get_bands(signatures[j]);
                 float common = 0;
                 for (int k = 0; k < BANDS; ++k) {
-                    if (lsh1[k] == lsh2[k]) ++common;
+                    if (lsh[i][k] == lsh[j][k]) ++common;
                 }
                 if (common / BANDS >= threshold / 2) {
                     common = 0;
@@ -117,4 +120,9 @@ vector<vector<double>> Comparator::get_minhash_similarity() {
 
 void Comparator::setHashFunctions(unsigned n) {
     this->HASH_FUNCTIONS = n;
+}
+
+void Comparator::setBandsRows(unsigned b, unsigned r) {
+    this->BANDS = b;
+    this->ROWS = r;
 }

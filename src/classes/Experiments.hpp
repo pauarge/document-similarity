@@ -14,6 +14,8 @@ public:
 
     void experiment_hashFunctions(Comparator comparator, unsigned n);
 
+    void experiment_parametresLSH(Comparator comparator);
+
 };
 
 #endif

@@ -6,8 +6,8 @@
 using namespace std;
 
 #define DEFAULT_HASH_FUNCTIONS 100
-#define BANDS 25
-#define ROWS 4
+#define DEFAULT_BANDS 25
+#define DEFAULT_ROWS 4
 
 #ifndef DOCUMENT_SIMILARITY_COMPARATOR_HPP
 #define DOCUMENT_SIMILARITY_COMPARATOR_HPP
@@ -26,6 +26,8 @@ public:
 
     void setHashFunctions(unsigned n);
 
+    void setBandsRows(unsigned b, unsigned r);
+
 private:
     vector<Document *> docs;
 
@@ -33,9 +35,14 @@ private:
 
     float threshold;
 
+    unsigned BANDS;
+
+    unsigned ROWS;
+
     unsigned HASH_FUNCTIONS;
 
     vector<unsigned> get_bands(vector<unsigned> &sig);
+
 };
 
 #endif
