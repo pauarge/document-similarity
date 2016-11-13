@@ -68,9 +68,7 @@ Procedim ara a veure com hem implementat la solució proposada al paper. [REFER�
 
 El llenguatge de programació ve imposat per l'enunciat de la pràctica, és a dir, C++. Nosaltres hem decidit fer servir la versió C++11, perquè és una força moderna compatible amb la gran majoria de compiladors actuals i que a més ens permet usar construccions que agilitzen el desenvolupament, com ara \verb|auto|, \verb|vector<vector<int>>| (en comptes de \verb|vector<vector<int> >|) o \verb|for(auto e : V)|.
 
-Hem aprofitat la orientació a objectes de C++.
-
-Hem creat tres classes:
+Hem aprofitat la orientació a objectes de C++ per tal d'encapsular i reutilitzar funcionalitats. Hem creat un fitxer d'utilitats comunes i les tres classes següents (que s'expliquen en els seus corresponents apartats):
 
 \begin{itemize}
 \item Comparator.
@@ -79,43 +77,100 @@ Hem creat tres classes:
 \end{itemize}
 
 
-També hem usat la llibreria Boost. Boost, de fet, és un conjunt de llibreries de C++ de molt renom. Les funcionalitats de Boost que hem fet servir han sigut: [LINK A BOOST PLS]
+A part de la STL, hem fet servir la llibreria Boost. Boost, de fet, és un conjunt de llibreries de C++, de codi obert i molt renom, que implementa funcionalitats de tot tipus. Les funcionalitats de Boost que hem fet servir han sigut: [LINK A BOOST PLS]
 
 \begin{itemize}
-\item CRC
-\item Filesystem
+\item \textbf{CRC}, funció de hashing. S'explica més endavant el funcionament detallat.
+\item \textbf{Filesystem}, per a llegir arxius del sistema de fitxers. Es va valorar fer servir el sistema built-in de C++, però en aquest cas Boost ens permetia més funcionalitats amb un codi més simple.
 \end{itemize}
 
-Per a la compilació i linkat hem fet servir CMake. CMake és un sistema de gestió de builds que facilita molt el desenvolupament. S'integra amb l'entorn de desenvolupament (IDE) que hem utilitzat [LINK A CMAKE PLS]
+Per a la compilació i linkat hem fet servir CMake. CMake és un sistema de gestió de builds que facilita molt el desenvolupament. S'integra amb l'entorn de desenvolupament (IDE) que hem utilitzat, CLion, i ens permet abstraure la compilació i el linkatge de la plataforma i compilador concret que s'estigui usant. [LINK A CMAKE PLS]
 
 \section{Funcionament bàsic}
 
-El programa té dos executables (main), \verb|main.cpp| i \verb|mainExperiments.cpp|. En aquesta secció procedirem a explicar el funcionament del primer, el segon és per executar els experiments que s'expliquen al pertinent apartat d'experiments.
+El programa té dos executables, \verb|main.cpp| i \verb|mainExperiments.cpp|. En aquesta secció procedirem a explicar el funcionament del primer, el segon és per executar els experiments que s'expliquen al pertinent apartat d'experiments.
 
 El programa rep com a argument de línia de comandaments una direcció a un directori, que pot ser relativa o absoluta. Llavors, obrirà aquest directori, llegirà tots els fitxers amb extensió \verb|.txt| que contingui i instanciarà un vector amb punters a objectes \verb|Document|.
 
-Aquest codi, al ser comú pels dos arxius main, es troba dins la classe \verb|Utils|. Ho hem fet de tal manera per a ser més eficients i poder reutilitzar ràpidament.
+Noti's que fem servir un vector de punters a documents i no un vector de documents en si. Això ho fem simplement per a una major eficiència a nivell de memòria (espacial).
 
-Llavors, executem per a aquest conjunt de documents, generarem una matriu de similituds, de tal manera que la casella \verb|M(i,j)| contindrà la similitud, en escala de 0 a 1, entre el document \textit{i} i el \textit{j}. Com que el valor de \verb|M(i,j)| és el mateix que \verb|M(j,i)|, realment només calculem la meitat de la matriu, però imprimim per la pantalla la matriu completa per facilitar-ne la comprensió.
+Llavors generarem una matriu de similituds per a aquest conjunt de documents, de tal manera que la casella \verb|M(i,j)| contindrà la similitud, en escala de 0 a 1, entre el document \textit{i} i el \textit{j}. Com que el valor de \verb|M(i,j)| és el mateix que \verb|M(j,i)|, realment només calculem la meitat de la matriu, però imprimim per la pantalla la matriu completa per facilitar-ne la comprensió.
 
-Quan s'executa el programa principal, imprimim tres matrius
+Quan s'executa el programa principal, imprimim tres matrius com la descrita anteriorment, calculades amb els tres mètodes diferents que fem servir en aquesta pràctica: \textbf{Jaccard, Minhashing i LSH} (explicarem en els propers apartats com implementem aquests algorismes detalladament). Per a cada una d'aquestes execucions, controlem el temps que tarda en executar-se.
+
+Apuntar que per a fer aquestes comparacions, creem un objecte Comparador, al qual associem el vector de documents, i que ens retorna per a cada mètode, una matriu de similituds.
 
 \subsection{El control de temps}
 
+Per a mesurar el temps, fem servir el paquet \verb|ctime| de la STL de C++. Simplement guardem en una variable el moment inicial de l'execució i el final. Aquests dos vaors no són segons pròpiament dits, sinó cicles de rellotge de la CPU. Per a obtenir el valor en segons, restem el principi al final i ho dividim per una constant de conversió que incorpora C++, \verb|CLOCKS_PER_SEC|.
+
 \subsection{L'objecte Document}
 
+Per a representar documents, no fem servir una variable sola del tipus string, sinó que creem un objecte. Ho fem d'aquesta manera perquè considerem que un document té associats uns mètodes que ens seran útils en el transcurs de la pràctica que s'hi poden encapsular.
+
+L'estructura bàsica d'un Document és:
+
+\begin{itemize}
+\item \textbf{Booleà de validesa}, que indica si el document s'ha pogut llegir correctament de disc.
+\item \textbf{Dades}, un string amb el contingut del document en sí.
+\item \textbf{Path}, la direcció des d'on s'ha llegit el document.
+\end{itemize}
+
 \subsection{L'objecte Comparator}
+
+L'objecte Comparator és l'encarregat de recollir un vector de punters a documents i fer les comparacions pertinents usant els tres mètodes ja esmentats, retornant la matriu de scores. Efectivament, la gran part dels algorismes proposats a la pràctica estan implementats aquí (excepte algunes funcions auxiliars fortament lligades a Document).
+
+L'estructura bàsica del Comparator és:
+
+\begin{itemize}
+\item Vector de punters a documents
+\item Threshold
+\item Bands
+\item Rows
+\item Hash Functions
+\end{itemize}
 
 
 \section{Similitud de Jaccard}
 
 Per a implementar la similitud de Jaccard entre dos documents, hem fer servir la fórmula subministrada a l'enunciat com a base.
 
-Llavors, la implementació és força simple: detectem
+[INSERTAR FÓRMULA]
+
+Primerament, obtenim un document i n'extraiem els shingles de llargada k (com obtenim aquest valor s'explica en apartats següents). Per això, anem iterant a cada caràcter i de la cadena de text i obtenim la subcadena de i a i+k. Inserim cada shingle a un <set> de la STL (hem triat aquest aquesta estructura de dades per la seva simplicitat a l'hora d'inserir elements i gestionar duplicats i perquè té les dues funcions que expliquem a continuació).
+
+Per a calcular la similitud seguint la fórumla, fem servir dues funcions de C++ específiques per a \verb|<set>|: \verb|set_intersection| i \verb|set_union|, que donats dos sets d'entrada (els dos documents que volem comparar), ens genera un set de sortida amb la seva intersecció/unió. Llavors, és trivial obtenir la seva mida i fer-ne la divisió.
+
+Els sets que hem comentat fins ara són de strings, però per a fer els apartats següents, com que hem de fer operacions de hashing, ens serà molt més còmode si són naturals. A més, exeperimentalment ens hem adonat que el rendiment és molt més bo si guardem els shingles hashejats com a naturals, per tant, així ho hem decidit fer, tant per a calcular la similitud de Jaccard com per als següents apartats.
+
+Vist això, és evident que necessitàvem una funció per a hashejar un shingle (una cadena de text) a un número natural. Vam decidir des del principi que en comptes de haver d'exposar-nos a tenir errors si dissenyem una funció de hash nosaltres, preferim fer servir un algorisme conegut i estudiat que garanteixi un número despreciable de col·lisions, una distribució uniforme i un rendiment acceptable.
+
+Vam considerar llavors els algorismes de Cycle Reduntant Check (CRC), MD5 i SHA.
+
+Quan ens vam decidir per CRC, vam decidir fer servir la implementació que ens proveïa Boost. Vam fer servir crc 16 type, perquè els 16 bits en cabien dins de un int (32 no eren necessaris i per tant podíem tenir millor rendiment). És un typedef de optimal, que òbviament vam fer servir per sobre de basic (els dos generen el mateix output d'una manera transparent a nosaltres, però un s'executa més ràpid).
+
 
 \section{Similitud per Minhash}
 
+La part essencial de la implementació d'aquest algoritme és la generació de les signatures de cada document.
+
+La funció que hem fet servir és
+
+\[h(x) = (C1 * x + C2) \quad mod \quad UINT\_MAX \]
+
+Hem triat aquesta funció perquè és extremadament ràpida de calcular i ens permet assignar un valor dintre del rang dels naturials (unsigned dins de C++). Vam descartar unsigned long perquè el seu excessiu consum de memòria no es traduïa en uns millors resultats.
+
+Generació de les constants. Dos vectors. Es generen una vegada per execució.
+
+Obtenció signatures -> Obtenció de minhashes.
+
+Per a obtenir la signatura d'un document, li haurem de passar a la classe els coeficients amb els que volem generar la signatura (aquests coeficients són els mateixos per a tots els documents dins d'una instància de Comparator, per a conservar la propietat de Minhash).
+
+Finalment, retornem la similitud entre els dos documents, és a dir, dins de cada posició del vector de signatura de dos elements, quants coïncideixen sobre la seva mida total (el número funcions de hash usades).
+
 \section{LSH}
+
+[QUE ALGUIEN ME LO EXPLIQUE]
 
 \section{Optimizacions proposades}
 
@@ -125,7 +180,11 @@ Perquè vam descartar la funció get\_shingles que retornava els shingles tal i 
 
 \subsection{LSH amb Distància de Levenshtein}
 
+[WTF]
+
 \section{Generació de permutacions d'un document}
+
+[RUBÉN, POSA QUATRE PARAULES SOBRE COM ES GENEREN  LES PERMUTACIONS]
 
 \chapter{Validació experimental}
 \section{Descripció dels jocs de prova}
@@ -148,17 +207,40 @@ Per les raons comentades anteriorment, la tria del valor de \textit{k} s'ha de f
 
 Els jocs de prova utilitzats contenen entre 50 i 100 paraules. La llargada mitjana d'una paraula són 5 caràcters, els jocs de prova contenen entre 250 i 500 caràcters. A més a més, dels caràcters de l'alfabet n'hi ha 20 que apareixen majoritàriament. Així doncs, \(  20^k \) és una estimació raonable del nombre de \textit{shingles}. Per tant, el nombre de caràcters dels documents a comparar ha de ser petit en relació a \(  20^k \); atenent a la longitud dels documents considerats, un valor de k = 6 donarà resultats satisfactoris. Tot i que s'experimentarà amb diferents valors de k, s'utilitzarà aquest valor com una primera referència.
 
-\section{Influència del numero de funcions i bandes en LSH}
+\section{Influència dels paràmetres en LSH}
 
 Per estudiar la influència del nombre de funcions de hash, el nombre de bandes i implícitament el nombre de fil·les per banda, duem a terme el següent experiment: \newline
 
 Prenem com a referència la similaritat de Jaccard. Posar gràfics experiments fets per fins a 200 funcions de hash, de 10 en 10, conclusió 50 és el nombre que dona una precisió més alta en els nostres jocs de prova.
 
-%\begin{center}
-%  \makebox[\textwidth]{\includegraphics[width=430pt]{testset1.png}}
-%\end{center}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=400pt]{testset1.png}}
+\end{center}
 
-\section{Tria de paràmetres del algorísme LSH}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=400pt]{testset2.png}}
+\end{center}
+
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=400pt]{testset3.png}}
+\end{center}
+
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=400pt]{testset4.png}}
+\end{center}
+
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=400pt]{testset5.png}}
+\end{center}
+
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=400pt]{testset6.png}}
+\end{center}
+
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=400pt]{avgsets.png}}
+\end{center}
+
 
 \chapter{Conclusions}
 \end{document}
