@@ -53,7 +53,7 @@ set<unsigned> Document::get_shingles(unsigned k) const {
     set<unsigned> res;
     for (unsigned i = 0; i <= this->data.length() - k; i++) {
         string temp = this->data.substr(i, k);
-        boost::crc_32_type h;
+        boost::crc_16_type h;
         h.process_bytes(temp.data(), temp.length());
         res.insert(h.checksum());
     }
