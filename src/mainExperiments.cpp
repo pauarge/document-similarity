@@ -2,7 +2,6 @@
 #include "classes/Experiments.hpp"
 #include "utils/utils.hpp"
 
-
 int main(int argc, char *argv[]) {
 
     if (argc == 2) {
