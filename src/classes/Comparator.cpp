@@ -149,7 +149,7 @@ vector<vector<double>> Comparator::get_lshAdvanced_similarity() {
                     if (lsh[i][k] == lsh[j][k]) ++common;
                 }
                 if (common / BANDS >= threshold / 2) {
-                    res[i][j] = res[j][i] = get_levenshteinDistance(docs[i]->data, docs[j]->data);
+                    res[i][j] = res[j][i] = get_levenshtein_distance(docs[i]->data, docs[j]->data);
                 } else res[i][j] = res[j][i] = -1;
             }
         }
@@ -157,7 +157,7 @@ vector<vector<double>> Comparator::get_lshAdvanced_similarity() {
     return res;
 }
 
-int Comparator::get_levenshteinDistance(const string &s1, const string &s2) {
+int Comparator::get_levenshtein_distance(const string &s1, const string &s2) {
     int N1 = s1.size();
     int N2 = s2.size();
     int i, j;

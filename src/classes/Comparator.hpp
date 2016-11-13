@@ -45,7 +45,7 @@ private:
 
     vector<unsigned> get_bands(vector<unsigned> &sig);
 
-    int get_levenshteinDistance(const string &s1, const string &s2);
+    int get_levenshtein_distance(const string &s1, const string &s2);
 
 };
 
