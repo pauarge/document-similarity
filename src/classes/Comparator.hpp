@@ -18,8 +18,6 @@ class Comparator {
 public:
     Comparator(vector<Document *> V);
 
-    Comparator(vector<Document *> V, unsigned hf, unsigned ba, unsigned ro);
-
     void set_hash_functions(unsigned n);
 
     void set_bands_rows(unsigned b, unsigned r);

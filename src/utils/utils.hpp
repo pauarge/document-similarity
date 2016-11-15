@@ -12,6 +12,6 @@ void print_time(clock_t begin);
 
 void print_matrix(vector<vector<double>> &M);
 
-vector<Document *> get_docs_from_path(string path, unsigned test_docs, unsigned shingles);
+vector<Document *> get_docs_from_path(string path);
 
 #endif

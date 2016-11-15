@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Comparator.hpp"
 
 
@@ -6,14 +7,6 @@ Comparator::Comparator(vector<Document *> V) {
     this->hash_functions = DEFAULT_HASH_FUNCTIONS;
     this->bands = DEFAULT_BANDS;
     this->rows = DEFAULT_ROWS;
-
-}
-
-Comparator::Comparator(vector<Document *> V, unsigned hf, unsigned ba, unsigned ro) {
-    this->docs = V;
-    this->hash_functions = hf;
-    this->bands = ba;
-    this->rows = ro;
     this->threshold = pow((1 / (float) bands), (1 / (float) rows));
 }
 

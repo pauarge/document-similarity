@@ -1,10 +1,9 @@
+#include <iterator>
+#include <sstream>
+#include <set>
+#include <ctime>
+#include <random>
 #include "Document.hpp"
-
-
-Document::Document(bool b, string d, unsigned shingles){
-    this->data = d;
-    this->kshingles = shingles;
-}
 
 
 Document::Document(bool b, string d) {
@@ -13,9 +12,9 @@ Document::Document(bool b, string d) {
 }
 
 
-Document::Document(string path, unsigned shingles){
+Document::Document(string path) {
     this->path = path;
-    this->kshingles = shingles;
+    this->kshingles = DEFAULT_KSHINGLES;
 
     ifstream docfile;
     docfile.open(this->path);
@@ -38,11 +37,6 @@ Document::Document(string path, unsigned shingles){
     } else {
         this->valid = false;
     }
-}
-
-
-Document::Document(string path) {
-    Document(path, DEFAULT_KSHINGLES);
 }
 
 
@@ -90,7 +84,7 @@ vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2, unsig
 vector<Document *> Document::get_permutations(int k) const {
     std::vector<Document *> res;
     for (int i = 0; i < k; i++) {
-        Document *temp = new Document(true, this->get_permutation(), this->kshingles);
+        Document *temp = new Document(true, this->get_permutation());
         res.push_back(temp);
     }
     return res;
