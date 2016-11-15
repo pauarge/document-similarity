@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 
         begin = clock();
         cout << "LSH advanced similarity" << endl;
-        vector<vector<double>> lshAdvanced_res = comparator.get_lshAdvanced_similarity();
+        vector<vector<double>> lshAdvanced_res = comparator.get_advanced_lsh_similarity();
         print_matrix(lshAdvanced_res);
         print_time(begin);
 

@@ -19,7 +19,7 @@ void Experiments::experiment_parametresLSH(Comparator comparator) {
         unsigned y = U[u];
         double differ = 0;
         cout << "=== TRYING " << y << " HASH FUNCTIONS ===" << endl;
-        comparator.setHashFunctions(y);
+        comparator.set_hash_functions(y);
         unsigned v[6] = {y/2,2,y/5,5,y/10,10};
         clock_t x = clock();
         vector<vector<double>> min_res = comparator.get_minhash_similarity();
@@ -28,7 +28,7 @@ void Experiments::experiment_parametresLSH(Comparator comparator) {
 
         for(int i = 0; i < 6; i += 2) {
 
-            comparator.setBandsRows(v[i], v[i+1]);
+            comparator.set_bands_rows(v[i], v[i + 1]);
 
             clock_t begin = clock();
             cout << "LSH similarity Bands = " << v[i] << " Rows = " << v[i+1] << endl;
