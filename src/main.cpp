@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
         clock_t begin = clock();
         cout << "Jaccard similarity" << endl;
 
-        vector<vector<double>> jaccard_res = comparator.get_jaccard_similarity();
+        vector<vector<double>> jaccard_res = comparator.get_hashed_jaccard_similarity();
         print_matrix(jaccard_res);
         print_time(begin);
 

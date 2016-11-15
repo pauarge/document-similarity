@@ -25,9 +25,33 @@ void Comparator::set_bands_rows(unsigned b, unsigned r) {
 vector<vector<double>> Comparator::get_jaccard_similarity() {
     vector<vector<double>> res(this->docs.size(), vector<double>(this->docs.size()));
 
-    vector<set<unsigned>> shingles(this->docs.size());
+    vector<set<string>> shingles(this->docs.size());
     for (int i = 0; i < this->docs.size(); i++) {
         shingles[i] = this->docs[i]->get_shingles(docs[0]->kshingles);
+    }
+
+    for (int i = 0; i < this->docs.size(); i++) {
+        for (int j = i; j < this->docs.size(); j++) {
+            set<string> shingles_intersect;
+            set_intersection(shingles[i].begin(), shingles[i].end(), shingles[j].begin(), shingles[j].end(),
+                             inserter(shingles_intersect, shingles_intersect.begin()));
+
+            set<string> shingles_union;
+            set_union(shingles[i].begin(), shingles[i].end(), shingles[j].begin(), shingles[j].end(),
+                      inserter(shingles_union, shingles_union.begin()));
+            res[i][j] = res[j][i] = float(shingles_intersect.size()) / shingles_union.size();
+        }
+    }
+    return res;
+}
+
+
+vector<vector<double>> Comparator::get_hashed_jaccard_similarity() {
+    vector<vector<double>> res(this->docs.size(), vector<double>(this->docs.size()));
+
+    vector<set<unsigned>> shingles(this->docs.size());
+    for (int i = 0; i < this->docs.size(); i++) {
+        shingles[i] = this->docs[i]->get_hashed_shingles(docs[0]->kshingles);
     }
 
     for (int i = 0; i < this->docs.size(); i++) {

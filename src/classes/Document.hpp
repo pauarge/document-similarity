@@ -34,7 +34,9 @@ public:
 
     vector<Document *> get_permutations(int k) const;
 
-    set<unsigned> get_shingles(unsigned k) const;
+    set<string> get_shingles(unsigned k) const;
+
+    set<unsigned> get_hashed_shingles(unsigned k) const;
 
 private:
     unsigned fast_hash(int c1, int c2, unsigned val);

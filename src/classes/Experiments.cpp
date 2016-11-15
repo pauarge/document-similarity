@@ -14,13 +14,12 @@ void Experiments::experiment_kshingles(vector<Document *> &docs) {
         cout << "Jaccard similarity with KSHINGLES = " << i + 1 << endl;
         vector<vector<double>> jaccard_res = comparator.get_jaccard_similarity();
         print_matrix(jaccard_res);
-        cout << "Calculated in " << get_time(begin) << " seconds." << endl << endl;
+        print_time(begin);
     }
 }
 
 
 void Experiments::experiment_parametres_lsh(Comparator comparator) {
-
     unsigned U[20] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200};
 
     for (int u = 0; u < 20; u++) {
@@ -54,6 +53,21 @@ void Experiments::experiment_parametres_lsh(Comparator comparator) {
             cout << "Time Minhash - LSH " << t1 - t2 << " s" << endl << endl;
         }
     }
+}
+
+
+void Experiments::experiment_hashed_shingles(vector<Document *> &docs) {
+    Comparator comparator = Comparator(docs);
+
+    clock_t begin = clock();
+    cout << "Calculating Jaccard similarity with non-hashed shingles" << endl;
+    comparator.get_jaccard_similarity();
+    print_time(begin);
+
+    begin = clock();
+    cout << "Calculating Jaccard similarity with hashed shingles" << endl;
+    comparator.get_hashed_jaccard_similarity();
+    print_time(begin);
 }
 
 

@@ -24,6 +24,8 @@ public:
 
     vector<vector<double>> get_jaccard_similarity();
 
+    vector<vector<double>> get_hashed_jaccard_similarity();
+
     vector<vector<double>> get_minhash_similarity();
 
     vector<vector<double>> get_lsh_similarity();

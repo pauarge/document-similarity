@@ -15,6 +15,8 @@ public:
 
     void experiment_parametres_lsh(Comparator comparator);
 
+    void experiment_hashed_shingles(vector<Document *> &docs);
+
 private:
     double get_time(clock_t begin);
 

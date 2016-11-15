@@ -69,7 +69,7 @@ string Document::get_permutation() const {
 
 
 vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2, unsigned HASH_FUNCTIONS) {
-    set<unsigned> shingles = this->get_shingles(kshingles);
+    set<unsigned> shingles = this->get_hashed_shingles(kshingles);
     vector<unsigned> sig(HASH_FUNCTIONS);
     for (int i = 0; i < HASH_FUNCTIONS; i++) {
         sig[i] = UINT_MAX;
@@ -91,7 +91,16 @@ vector<Document *> Document::get_permutations(int k) const {
 }
 
 
-set<unsigned> Document::get_shingles(unsigned k) const {
+set<string> Document::get_shingles(unsigned k) const {
+    set<string> res;
+    for (unsigned i = 0; i <= this->data.length() - k; i++) {
+        res.insert(this->data.substr(i, k));
+    }
+    return res;
+}
+
+
+set<unsigned> Document::get_hashed_shingles(unsigned k) const {
     set<unsigned> res;
     for (unsigned i = 0; i <= this->data.length() - k; i++) {
         string temp = this->data.substr(i, k);
