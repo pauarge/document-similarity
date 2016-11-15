@@ -8,6 +8,16 @@ void print_time(clock_t begin) {
 }
 
 
+void print_matrix(vector<vector<double>> &M){
+    for (vector<double> V : M) {
+        for (double d : V) {
+            cout << d << " ";
+        }
+        cout << endl;
+    }
+}
+
+
 // TODO: Crash if could not read directory
 vector<Document *> get_docs_from_path(string path) {
     if (!fs::exists(path) || !fs::is_directory(path)) {

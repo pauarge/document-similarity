@@ -10,46 +10,27 @@ int main(int argc, char *argv[]) {
 
         clock_t begin = clock();
         cout << "Jaccard similarity" << endl;
+
         vector<vector<double>> jaccard_res = comparator.get_jaccard_similarity();
-        for (vector<double> V : jaccard_res) {
-            for (double d : V) {
-                cout << d << " ";
-            }
-            cout << endl;
-        }
+        print_matrix(jaccard_res);
         print_time(begin);
 
         begin = clock();
         cout << "Minhash similarity" << endl;
         vector<vector<double>> minhash_res = comparator.get_minhash_similarity();
-        for (vector<double> V : minhash_res) {
-            for (double d:V) {
-                cout << d << " ";
-            }
-            cout << endl;
-        }
+        print_matrix(minhash_res);
         print_time(begin);
 
         begin = clock();
         cout << "LSH similarity" << endl;
         vector<vector<double>> lsh_res = comparator.get_lsh_similarity();
-        for (vector<double> V : lsh_res) {
-            for (double x : V) {
-                cout << x << " ";
-            }
-            cout << endl;
-        }
+        print_matrix(lsh_res);
         print_time(begin);
 
         begin = clock();
         cout << "LSH advanced similarity" << endl;
         vector<vector<double>> lshAdvanced_res = comparator.get_lshAdvanced_similarity();
-        for (vector<double> V : lshAdvanced_res) {
-            for (double x : V) {
-                cout << x << " ";
-            }
-            cout << endl;
-        }
+        print_matrix(lshAdvanced_res);
         print_time(begin);
 
         float diff = 0;
