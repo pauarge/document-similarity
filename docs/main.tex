@@ -38,16 +38,16 @@
 }
 \begin{document}
 \date{}
-\title{
+\title{ 
 		\HRule{2pt} \\ [0.5cm]
-		\textbf{Similitud entre Documents \\ }
+		\textbf{Similitud entre Documents \\ }  
         {Algorísmia - Facultat d'Informàtica de Barcelona}
 		\HRule{2pt} \\ [0.5cm]
         \vspace{100px}
 		}
 \date{}
 \author{
-		Pau Argelaguet \\ Rubén Marías \\ Victor Massagué  \\
+		Pau Argelaguet \\ Rubén Marías \\ Victor Massagué  \\ 
 	    }
 \date{}
 \maketitle
@@ -56,11 +56,11 @@
 
 \chapter{Introducció  i objectius}
 
-L'objectiu d'aquesta pràctica és estudiar diferents algorismes i implementacions utilitzades per la detecció de similitud documental. El concepte de similitud pot ser certament objectiu, i es poden identificar almenys dos tipus de similituds entre documents: la ortogràfica i la lèxica. El treball s'ha en la identificació de la primera i no la segona, que tot i que també seria un problema molt interessant, implica tècniques diferents de les que s'usaran. \newline
+L'objectiu d'aquesta pràctica és estudiar diferents algorismes i implementacions utilitzades per la detecció de similitud documental. El concepte de similitud pot ser certament subjectiu, i es poden identificar almenys dos tipus de similituds entre documents: la ortogràfica i la lèxica. El treball s'ha en la identificació de la primera i no la segona, que tot i que també seria un problema molt interessant, implica tècniques diferents de les que s'usaran. \newline
 
 Així doncs, s'han implementat algorismes que utilitzen la similitud de Jaccard, la similitud per Minhash i LSH (\textit{Locality Sensitive Hashing}).  Aquestes implementacions s'han fet prenent la descripció proporcionada al llibre \textit{Mining massive datasets} \footnote{http://infolab.stanford.edu/~ullman/mmds/ch3.pdf} com a base. Adicionalment, s'ha implementat una combinació de LSH i distància de Levenshtein amb la que s'han obtingut resultats que han permès aprofundir en la comprensió d'aquest tipus de tècniques. \newline
 
-En aquest document es s'expliquen detalladament les decisions preses, així com el disseny i el procés d'implementació seguit. A més a més, es dedica un apartat a la validació experimental on s'hi detalla el disseny dels experiments per tal de determinar els paràmetres que optimitzen el funcionament i l'eficiència dels algorismes anteriorment mencionats, així com el conjunt d'indicadors utilitzats per evaluar la qualitat de les solucions. Finalment, es presenten les conclusions de la pràctica derivades dels experiment realitzats.
+En aquest document s'expliquen detalladament les decisions preses, així com el disseny i el procés d'implementació seguit. A més a més, es dedica un apartat a la validació experimental on s'hi detalla el disseny dels experiments per tal de determinar els paràmetres que optimitzen el funcionament i l'eficiència dels algorismes anteriorment mencionats, així com el conjunt d'indicadors utilitzats per evaluar la qualitat de les solucions. Finalment, es presenten les conclusions de la pràctica derivades dels experiment realitzats.
 
 \chapter{Implementació}
 
@@ -99,9 +99,9 @@ El programa rep com a argument de línia de comandaments una direcció a un dire
 
 Llavors es generarà una matriu de similituds per a aquest conjunt de documents, de tal manera que la casella \verb|M(i,j)| contindrà la similitud, en escala de 0 a 1, entre el document \textit{i} i el \textit{j}. Com que el valor de \verb|M(i,j)| és el mateix que \verb|M(j,i)|, realment només s'està calculant la meitat de la matriu, però s'imprimeix per la pantalla la matriu completa per facilitar-ne la comprensió.\newline
 
-Quan s'executa el programa principal, surten per pantalla tres matrius com la descrita anteriorment, calculades amb els tres mètodes diferents que es fan servir en la pràctica: \textbf{Jaccard, Minhashing i LSH} (detallats en els propers apartats). Per a cada una d'aquestes execucions, es controla el temps que tarda en executar-se. Per a fer aquestes comparacions, es crea un objecte \verb|Comparator|, al qual s'associa el vector de \verb|Document| i que retorna per a cada mètode, una matriu de similituds.
+Quan s'executa el programa principal, surten per pantalla tres matrius com la descrita anteriorment, calculades amb els tres mètodes diferents que es fan servir en la pràctica: \textbf{Jaccard, Minhashing i LSH} (detallats en els propers apartats). Per a cada una d'aquestes execucions, es controla el temps que tarda en executar-se. Per a fer aquestes comparacions, es crea un objecte \verb|Comparator|, al qual s'associa el vector de \verb|Document| i que retorna per a cada mètode, una matriu de similituds.\newline
 
-En el cas de voler modificar els valors manualment de nombre de funcions, kshingles o nombre de bandes i rows s'han de modificar els valors per defecte de les variables globals corresponents en el codi.
+En el cas de voler modificar els valors de nombre de funcions, kshingles, nombre de bandes o rows s'han de modificar els valors per defecte de les variables globals corresponents en el codi.
 
 \subsection{El control de temps}
 
@@ -115,7 +115,7 @@ L'estructura de Document és:
 
 \begin{itemize}
 \item \textbf{Booleà de validesa}, que indica si el document s'ha pogut llegir correctament de disc.
-\item \textbf{Dades}, un string amb el contingut del document en sí.
+\item \textbf{Dades}, un string amb el contingut del document en sí. 
 \item \textbf{Path}, la direcció des d'on s'ha llegit el document.
 \end{itemize}
 
@@ -128,7 +128,7 @@ L'estructura de Comparator és:
 \begin{itemize}
 \item Vector de punters a documents, on es guarden tots els punters dels documents que utilitzarem per analitzar la similitud.
 \item Threshold, valor límit utilitzat en els algorísmes LSH a partir del qual ens determina que si un valor és més gran o igual que aquest, hi ha una probabilitat molt alta de que siguin documents semblants. Més endavant en l'apartat de LSH s'explica com es calcula.
-\item Bands, nombre de bandes que utilitzem en els algorísmes LSH.
+\item Bands, nombre de bandes que utilitzem en els algorísmes LSH. 
 \item Rows, nombre de files que tindrà cada banda en els algorísmes LSH.
 \item Hash Functions, nombre de funcions de hash que utilitzarem per l'algorísme minhash.
 \end{itemize}
@@ -156,7 +156,7 @@ Es van considerar llavors els algorismes de Cycle Reduntant Check (CRC), MD5 i S
 [RAONS] \newline
 CRC vs. MD5 vs. SHA: Si s'analitzen les diferents opcions es pot veure que MD5 i SHA són computacionalment més complexes que no pas CRC ja que MD5 i SHA pretenen ser més segurs i utilitzen procediments molt més complexes. \newline
 
-Un cop escollit CRC, es va decidir fer servir la implementació que proveïa Boost. Concretament, es va fer servir la variant \verb|crc_16 type|, perquè els 16 bits cabien dins de un \verb|unsigned| (32 no éren necessaris, no aportaven una millora en els resultats significativa, i per tant proporcionava tenir millor rendiment, al ser el cost de càlcul més baix). És un typedef de \verb|crc_optimal|, que òbviament es va fer servir per sobre de \verb|crc_basic| (els dos generen el mateix output d'una manera transparent al desenvolupador, però el primer s'executa més ràpid).
+Un cop escollit CRC, es va decidir fer servir la implementació que proveïa Boost. Concretament, es va fer servir la variant \verb|crc_16 type|, perquè els 16 bits cabien dins de un \verb|unsigned| (32 no éren necessaris, no aportaven una millora en els resultats significativa, i per tant proporcionava tenir millor rendiment, al ser el cost de càlcul més baix). És un typedef de \verb|crc_optimal|, que òbviament es va fer servir per sobre de \verb|crc_basic| (els dos generen el mateix output d'una manera transparent al desenvolupador, però el primer s'executa més ràpid). 
 
 \subsection{Similitud per Minhash}
 
@@ -182,7 +182,7 @@ C1 i C2 són dues constants. [PER QUÈ FEM SERVIR DUES CONSTANTS?] Per a cada in
 
 D'altra banda, noti's que s'aplica a la funció de hash el mòdul amb la constant \verb|UINT_MAX|. Aquesta és una constant proveïda per C++ que ens permet assegurar que el valor resultant de la funció es trobarà dins del rang dels \verb|unsigned|.\newline
 
-Llavors, per a generar la signatura d'un \verb|Document|, es crida un mètode del mateix, \verb|get_signature|, amb els dos vectors de constants generats anteriorment i el número de funcions de hash (permutacions teòriques, efectivament la longitud del vector de signatura) que s'han d'aplicar per a obtenir la signatura. Una altra vegada, en una instància de \verb|Comparator|, el número de funcions de hash ha de ser constant per a ser comparable (quant més alt és aquest factor arbitrari, més temps d'execució té l'algorisme, però de més precisió són els resultats).\newline
+Llavors, per a generar la signatura d'un \verb|Document|, es crida un mètode del mateix, \verb|get_signature|, amb els dos vectors de constants generats anteriorment i el número de funcions de hash (permutacions teòriques, efectivament la longitud del vector de signatura) que s'han d'aplicar per a obtenir la signatura. Una altra vegada, en una instància de \verb|Comparator|, el número de funcions de hash ha de ser constant per a ser comparable (quant més alt és aquest factor arbitrari, més temps d'execució té l'algorisme, però de més precisió són els resultats).\newline 
 
 El què emminentment aquesta funció és executar n vegades la funció de hash, cada vegada amb uns coeficients \verb|C1[i]| i \verb|C2[i]| per a cada element (shingle) present al conjunt que representa el document. Per a cada iteració, en guarda el valor menor (ho fem usant la funció \verb|min| de C++). El cost de generar una signatura és doncs, O(n * |Document|).\newline
 
@@ -248,7 +248,7 @@ Cal destacar que per tal d'obtenir una mostra representativa del conjunt de docu
 
 \section{Similitud de Jaccard amb sets hashejats o sense hashejar}
 
-Per tal de veure si és més òptim realitzar la similitud de Jaccard amb sets de kshingles hashejats o sense es realitza el següent experiment. Els resultats obtinguts mostren que obtenim la similitud de Jaccard més ràpid utilitzant els kshingles hashejats. Això és degut a que el tamany dels kshingles és més llarg que el de kshingles hashejats. La gràfica mostra que per diferents conjunts de documents el temps d'execució de la similitud de Jaccard és sempre inferior utilitzant kshingles hashejats que no pas sense.
+Per tal de veure si és més òptim realitzar la similitud de Jaccard amb sets de kshingles hashejats o sense es realitza el següent experiment. Els resultats obtinguts mostren que obtenim la similitud de Jaccard més ràpid utilitzant els kshingles hashejats. Això és degut a que el tamany dels kshingles és més llarg que el de kshingles hashejats. La gràfica mostra que per diferents conjunts de documents el temps d'execució de la similitud de Jaccard és sempre inferior utilitzant kshingles hashejats que no pas sense. 
 
 \begin{figure}[!h]
   \centering
@@ -361,7 +361,7 @@ Es pot observar com el valor amb una major diferència mitjana és el 2, que cor
 \newpage
 \subsection{Qualitat de les solucions}
 \vspace{20pt}
-Per evaluar la qualitat global de les solucions es té en compte tant el temps com la precisió, que són els dos factors més interessants i amb aplicació més directa. Per fer-ho, es combinen tant la diferència temporal com la diferència en precisió (figura 3.10) i s'observa el resultat. S'observa que la diferència de precisió no és gaire significativa globalment. Ara bé, la diferència temporal si que ho és de forma més marcada.
+Per evaluar la qualitat global de les solucions es té en compte tant el temps com la precisió, que són els dos factors més interessants i amb aplicació més directa. Per fer-ho, es combinen tant la diferència temporal com la diferència en precisió (figura 3.10) i s'observa el resultat. S'observa que la diferència de precisió no és gaire significativa globalment. Ara bé, la diferència temporal si que ho és de forma més marcada. 
 
 
 \begin{figure}[!h]
