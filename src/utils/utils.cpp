@@ -19,7 +19,7 @@ void print_matrix(vector<vector<double>> &M){
 
 
 // TODO: Crash if could not read directory
-vector<Document *> get_docs_from_path(string path) {
+vector<Document *> get_docs_from_path(string path, unsigned test_docs, unsigned shingles) {
     if (!fs::exists(path) || !fs::is_directory(path)) {
         cout << "Could not read directory" << endl;
     }
@@ -32,10 +32,10 @@ vector<Document *> get_docs_from_path(string path) {
 
     while (it != endit) {
         if (fs::is_regular_file(*it) and it->path().extension() == ".txt") {
-            Document *doc = new Document(it->path().string());
+            Document *doc = new Document(it->path().string(), shingles);
             if (doc->valid) {
                 docs.push_back(doc);
-                vector<Document *> temp = doc->get_permutations(TEST_DOCS);
+                vector<Document *> temp = doc->get_permutations(test_docs);
                 docs.insert(docs.end(), temp.begin(), temp.end());
             }
         }

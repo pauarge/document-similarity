@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
 
     if (argc == 2) {
 
-        vector<Document *> docs = get_docs_from_path(argv[1]);
+        vector<Document *> docs = get_docs_from_path(argv[1], TEST_DOCS, );
         Comparator comparator = Comparator(docs);
         Experiments experiment = Experiments();
 

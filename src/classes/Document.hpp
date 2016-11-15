@@ -2,6 +2,8 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <random>
 #include <cmath>
 #include <boost/crc.hpp>
 #include <boost/functional/hash.hpp>
@@ -24,9 +26,13 @@ public:
     string data;
     string path;
 
+    Document(bool b, string d, unsigned shingles);
+
     Document(bool b, string d);
 
-    Document(std::string path);
+    Document(string path, unsigned shingles);
+
+    Document(string path);
 
     string get_permutation() const;
 
@@ -42,6 +48,5 @@ private:
     unsigned fast_hash(int c1, int c2, unsigned val);
 
 };
-
 
 #endif
