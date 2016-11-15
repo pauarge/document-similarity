@@ -9,7 +9,7 @@
 using namespace std;
 
 #define TEST_DOCS 0
-#define KSHINGLES 9
+#define DEFAULT_KSHINGLES 9
 
 
 #ifndef DOCUMENT_SIMILARITY_DOCUMENT_HPP
@@ -22,6 +22,7 @@ public:
     bool valid;
     string data;
     string path;
+    unsigned KSHINGLES;
 
     Document(bool b, string d);
 
@@ -35,6 +36,7 @@ public:
 
     std::string get_permutation() const;
 
+private:
     unsigned fast_hash(int c1, int c2, unsigned val);
 
 };

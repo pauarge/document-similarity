@@ -11,34 +11,6 @@ Experiments::Experiments() {
 
 }
 
-void Experiments::experiment_hashFunctions(Comparator comparator, unsigned n) {
-
-    for (unsigned k = 25; k <= 500; k += 25) {
-
-        comparator.setHashFunctions(k);
-
-        cout << k << " Hash functions " << endl;
-
-        clock_t begin = clock();
-        vector<vector<double>> jaccard_res = comparator.get_jaccard_similarity();
-        double t1 = print_time(begin);
-
-        begin = clock();
-        vector<vector<double>> minhash_res = comparator.get_minhash_similarity();
-        double t2 = print_time(begin);
-
-        cout << "Difference Jaccard - Minhash = " << t1 - t2;
-        float diff = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                diff += abs(jaccard_res[i][j] - minhash_res[i][j]);
-            }
-        }
-        cout << " Desviation (between Jaccard and Minhash): " << diff << endl;
-    }
-}
-
-
 void Experiments::experiment_parametresLSH(Comparator comparator) {
 
     unsigned U[20] = {10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200};
@@ -74,5 +46,23 @@ void Experiments::experiment_parametresLSH(Comparator comparator) {
             if (i == 4) std::cout << "Avg Difference for the group: " << differ/3 << endl;
             cout << "Time Minhash - LSH "<< t1 - t2 << " s" << endl << endl;
         }
+    }
+}
+
+void Experiments::experiment_kshingles(vector<Document *> &docs) {
+
+    for(unsigned i = 0; i < 10; ++i) {
+        docs[0]->KSHINGLES = i+1;
+        Comparator comparator = Comparator(docs);
+        clock_t begin = clock();
+        cout << "Jaccard similarity with KSHINGLES = " << i+1 << endl;
+        vector<vector<double>> jaccard_res = comparator.get_jaccard_similarity();
+        for (vector<double> V : jaccard_res) {
+            for (double d : V) {
+                cout << d << " ";
+            }
+            cout << endl;
+        }
+        cout << "Calculated in " << print_time(begin) << " seconds." << endl << endl;
     }
 }

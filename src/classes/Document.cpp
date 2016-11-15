@@ -8,10 +8,12 @@
 
 Document::Document(bool b, string d) {
     this->data = d;
+    this->KSHINGLES = DEFAULT_KSHINGLES;
 }
 
 Document::Document(string path) {
     this->path = path;
+    this->KSHINGLES = DEFAULT_KSHINGLES;
 
     ifstream docfile;
     docfile.open(this->path);

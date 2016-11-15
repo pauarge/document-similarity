@@ -12,7 +12,7 @@ public:
 
     double print_time(clock_t begin);
 
-    void experiment_hashFunctions(Comparator comparator, unsigned n);
+    void experiment_kshingles(vector<Document *> &docs);
 
     void experiment_parametresLSH(Comparator comparator);
 
