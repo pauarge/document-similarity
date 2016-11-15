@@ -1,4 +1,5 @@
 #include "Comparator.hpp"
+#include "../utils/utils.hpp"
 
 
 #ifndef DOCUMENT_SIMILARITY_EXPERIMENTS_H
@@ -10,11 +11,12 @@ public:
 
     Experiments();
 
-    double print_time(clock_t begin);
-
     void experiment_kshingles(vector<Document *> &docs);
 
-    void experiment_parametresLSH(Comparator comparator);
+    void experiment_parametres_lsh(Comparator comparator);
+
+private:
+    double get_time(clock_t begin);
 
 };
 

@@ -20,21 +20,21 @@ class Document {
 
 public:
     bool valid;
+    unsigned kshingles;
     string data;
     string path;
-    unsigned KSHINGLES;
 
     Document(bool b, string d);
 
     Document(std::string path);
 
-    vector<unsigned> get_signature(vector<int> &c1, vector<int> &c2, unsigned HASH_FUNCTIONS);
+    string get_permutation() const;
 
-    set<unsigned> get_shingles(unsigned k) const;
+    vector<unsigned> get_signature(vector<int> &c1, vector<int> &c2, unsigned HASH_FUNCTIONS);
 
     vector<Document *> get_permutations(int k) const;
 
-    std::string get_permutation() const;
+    set<unsigned> get_shingles(unsigned k) const;
 
 private:
     unsigned fast_hash(int c1, int c2, unsigned val);

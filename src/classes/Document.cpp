@@ -8,12 +8,13 @@
 
 Document::Document(bool b, string d) {
     this->data = d;
-    this->KSHINGLES = DEFAULT_KSHINGLES;
+    this->kshingles = DEFAULT_KSHINGLES;
 }
+
 
 Document::Document(string path) {
     this->path = path;
-    this->KSHINGLES = DEFAULT_KSHINGLES;
+    this->kshingles = DEFAULT_KSHINGLES;
 
     ifstream docfile;
     docfile.open(this->path);
@@ -28,7 +29,7 @@ Document::Document(string path) {
 
         docfile.close();
 
-        if (this->data.length() < KSHINGLES) {
+        if (this->data.length() < kshingles) {
             this->valid = false;
             cout << "The document is shorter than the minimum value of k" << endl;
         }
@@ -38,42 +39,6 @@ Document::Document(string path) {
     }
 }
 
-
-vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2, unsigned HASH_FUNCTIONS) {
-    set<unsigned> shingles = this->get_shingles(KSHINGLES);
-    vector<unsigned> sig(HASH_FUNCTIONS);
-    for (int i = 0; i < HASH_FUNCTIONS; i++) {
-        sig[i] = UINT_MAX;
-        for (unsigned shingle : shingles) {
-            sig[i] = min(sig[i], fast_hash(c1[i], c2[i], shingle));
-        }
-    }
-    return sig;
-}
-
-set<unsigned> Document::get_shingles(unsigned k) const {
-    set<unsigned> res;
-    for (unsigned i = 0; i <= this->data.length() - k; i++) {
-        string temp = this->data.substr(i, k);
-        boost::crc_16_type h;
-        h.process_bytes(temp.data(), temp.length());
-        res.insert(h.checksum());
-    }
-    return res;
-}
-
-
-/**
- * Arbitrary hash function that generates a value from two random coefficients and an input.
- *
- * @param c1
- * @param c2
- * @param val
- * @return
- */
-unsigned Document::fast_hash(int c1, int c2, unsigned val) {
-    return (c1 * val + c2) % UINT_MAX;
-}
 
 string Document::get_permutation() const {
     if (this->data.length() == 0) return "";
@@ -102,6 +67,20 @@ string Document::get_permutation() const {
     return res;
 }
 
+
+vector<unsigned> Document::get_signature(vector<int> &c1, vector<int> &c2, unsigned HASH_FUNCTIONS) {
+    set<unsigned> shingles = this->get_shingles(kshingles);
+    vector<unsigned> sig(HASH_FUNCTIONS);
+    for (int i = 0; i < HASH_FUNCTIONS; i++) {
+        sig[i] = UINT_MAX;
+        for (unsigned shingle : shingles) {
+            sig[i] = min(sig[i], fast_hash(c1[i], c2[i], shingle));
+        }
+    }
+    return sig;
+}
+
+
 vector<Document *> Document::get_permutations(int k) const {
     std::vector<Document *> res;
     for (int i = 0; i < k; i++) {
@@ -109,4 +88,21 @@ vector<Document *> Document::get_permutations(int k) const {
         res.push_back(temp);
     }
     return res;
+}
+
+
+set<unsigned> Document::get_shingles(unsigned k) const {
+    set<unsigned> res;
+    for (unsigned i = 0; i <= this->data.length() - k; i++) {
+        string temp = this->data.substr(i, k);
+        boost::crc_16_type h;
+        h.process_bytes(temp.data(), temp.length());
+        res.insert(h.checksum());
+    }
+    return res;
+}
+
+
+unsigned Document::fast_hash(int c1, int c2, unsigned val) {
+    return (c1 * val + c2) % UINT_MAX;
 }

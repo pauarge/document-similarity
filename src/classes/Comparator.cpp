@@ -27,7 +27,7 @@ vector<vector<double>> Comparator::get_jaccard_similarity() {
 
     vector<set<unsigned>> shingles(this->docs.size());
     for (int i = 0; i < this->docs.size(); i++) {
-        shingles[i] = this->docs[i]->get_shingles(docs[0]->KSHINGLES);
+        shingles[i] = this->docs[i]->get_shingles(docs[0]->kshingles);
     }
 
     for (int i = 0; i < this->docs.size(); i++) {
