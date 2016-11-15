@@ -114,7 +114,7 @@ vector<vector<double>> Comparator::get_lsh_similarity() {
                 for (int k = 0; k < bands; ++k) {
                     if (lsh[i][k] == lsh[j][k]) ++common;
                 }
-                if (common / bands >= threshold / 2) {
+                if (common / bands >= threshold) {
                     common = 0;
                     for (int t = 0; t < hash_functions; t++) {
                         if (signatures[i][t] == signatures[j][t]) common++;
