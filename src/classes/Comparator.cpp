@@ -5,9 +5,9 @@
 Comparator::Comparator(vector<Document *> V) {
     this->docs = V;
     this->hash_functions = DEFAULT_HASH_FUNCTIONS;
-    this->threshold = pow((1 / (float) bands), (1 / (float) rows));
     this->bands = DEFAULT_BANDS;
     this->rows = DEFAULT_ROWS;
+    this->threshold = pow((1 / (float) bands), (1 / (float) rows));
 }
 
 
