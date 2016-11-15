@@ -23,7 +23,7 @@ void Comparator::set_bands_rows(unsigned b, unsigned r) {
 
 
 vector<vector<double>> Comparator::get_jaccard_similarity() {
-    vector<vector<double>> Res(this->docs.size(), vector<double>(this->docs.size()));
+    vector<vector<double>> res(this->docs.size(), vector<double>(this->docs.size()));
 
     vector<set<unsigned>> shingles(this->docs.size());
     for (int i = 0; i < this->docs.size(); i++) {
@@ -39,10 +39,10 @@ vector<vector<double>> Comparator::get_jaccard_similarity() {
             set<unsigned> shingles_union;
             set_union(shingles[i].begin(), shingles[i].end(), shingles[j].begin(), shingles[j].end(),
                       inserter(shingles_union, shingles_union.begin()));
-            Res[i][j] = Res[j][i] = float(shingles_intersect.size()) / shingles_union.size();
+            res[i][j] = res[j][i] = float(shingles_intersect.size()) / shingles_union.size();
         }
     }
-    return Res;
+    return res;
 }
 
 
@@ -55,17 +55,17 @@ vector<vector<double>> Comparator::get_minhash_similarity() {
         signatures[i] = this->docs[i]->get_signature(c1, c2, hash_functions);
     }
 
-    vector<vector<double>> Res(this->docs.size(), vector<double>(this->docs.size()));
+    vector<vector<double>> res(this->docs.size(), vector<double>(this->docs.size()));
     for (int i = 0; i < this->docs.size(); i++) {
         for (int j = i; j < this->docs.size(); j++) {
             float common = 0;
             for (int h = 0; h < hash_functions; h++) {
                 if (signatures[i][h] == signatures[j][h]) common++;
             }
-            Res[i][j] = Res[j][i] = common / hash_functions;
+            res[i][j] = res[j][i] = common / hash_functions;
         }
     }
-    return Res;
+    return res;
 }
 
 
@@ -136,8 +136,8 @@ vector<vector<double>> Comparator::get_advanced_lsh_similarity() {
 
 
 int Comparator::get_levenshtein_distance(const string &s1, const string &s2) {
-    int N1 = s1.size();
-    int N2 = s2.size();
+    unsigned N1 = s1.size();
+    unsigned N2 = s2.size();
     int i, j;
     vector<int> T(N2 + 1);
 
