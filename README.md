@@ -1,4 +1,10 @@
-# document-similarity
+# Document Similarity
+
+This project is part of the Algorithms course (fall 2016) at Facultat d'Informàtica de Barcelona (UPC - BarcelonaTech). Done together with Víctor Massagué & Rubén Marías.
+
+The project full documentation is on `docs/` folder, with both our explanations and conclusions and the original assignment from course professors.
+
+## Intro
 
 This project implements Jaccard Similarity, Mihash Similarity and Locally Sensitive Hashing to detect and grade similarity between documents. 
 
